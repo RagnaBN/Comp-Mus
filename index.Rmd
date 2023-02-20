@@ -8,27 +8,114 @@ output: html_document
 ```{r}
 library(tidyverse)
 library(spotifyr)
+library(ggplot2)
 ```
 
-This is normal text. 
 
-## This is a big heading 
-
-### This is a small heading 
-
-#### This is an even smaller heading
-
-I put it italics between *Like this* 
-
-I put bold. between two stars **like this** 
-
-I make lists like this: 
-
-  - list 1 
-  - list 2
-  - list 3
+## The corpus:  
+These playlists are personally made playlists based on what is popular by six artists divided by two geographical areas. I tried to limit to approximately one album from each artist, but if I saw something that would loosely be considered pop/city pop I added them to the playlist. They are approximately from the same era (late seventies to early eighties). 
   
 ```{r}
-cityPop <- get_playlist_audio_features("", "7LNMKu5boirXk30CB0mh7W")
+cityPopPlaylist <- get_playlist_audio_features("", "7LNMKu5boirXk30CB0mh7W")
+popPlaylist <- get_playlist_audio_features("", "64h8THGlWTBkbE7sqhRV4V")
 ```
+
+
+
+```{r}
+comparison <- 
+    bind_rows(
+      cityPopPlaylist |> mutate(category = "City Pop"),
+      popPlaylist |> mutate(category = "US Pop")
+    )
+```
+
+## Tempo, danceability and energy  
+
+
+```{r}
+comparison |> 
+  ggplot(
+    aes(
+      x = energy, fill = category
+      )
+    ) + 
+  geom_histogram(
+    binwidth = 0.1, 
+    position = position_dodge(0.3)
+    ) + 
+  labs(
+    y = "Amount of Songs", 
+    x = "Energy", 
+    title = "Distribution of Energy between City Pop and Pop", 
+    citation = "Data: Personal Playlists")
+
+```
+  
+Here are plots to give insight in the general tempos effect on danceability (and energy) in the groups City Pop and US Pop. In the first histogram plot, one can see that the distribution of energy is more even for pop than for city pop. It says that it counted 15 of the data in my playlist for City Pop to have an energy of a little over 0.6.  
+
+
+```{r}
+comparison |>
+  ggplot(
+    aes(
+      x = energy, 
+      y = danceability, 
+      color = category, 
+      size = tempo
+      )
+    ) + 
+    geom_point(
+      alpha = 0.5
+      ) + 
+    geom_jitter() +
+    geom_smooth() +
+    facet_wrap(~category) +
+    labs(title = "The effect of energy on danceability for City Pop and US Pop")
+```
+  
+Here is a plot of the effect of energy on danceability, with size of the plots as well as the band around the line indicating the tempo of the songs. One can see that there is more of a linear trend with US Pop, indicating that up until around energy of 0.5 there seems to be a correlation between energy and danceability. Tempo, however, do seem to have no pattern at first glance. Whereas for the City Pop playlist, there seem to be a slight curve in the beginning of the graph, but overall there is a very even trend of the effect of energy on danceability. At first glance, there also seem to be no indication that there is a trend for tempo.  
+
+
+## Valence, danceability and mode  
+
+The previous plots made me think that there is more to the differences between city pop and US pop. Danceability for city pop seemed overall lower than for US pop, indicating that there are more differences in their features than I previously thought. Personally, when listening to city pop, I often get a feeling of a certain melancholy, even while you may want to dance. Therefore, I decided to explore these features.  
+
+  
+```{r}
+comparison |> ggplot(aes(x = valence, fill = category)) + geom_histogram(binwidth = 0.1, position = position_dodge()) + labs(title = "Distribution of Valence in City Pop and US Pop") 
+```
+  
+Starting with valence, I wanted to see whether there were differences in distributions for the valence in the two groups/playlists. The histogram below does seem to indicate that there is more songs that are considered very happy, but this could be attributed to the fact that the city pop playlist has more songs than in the US Pop playlist. Therefore, I made another scatterplot to explore further.  
+
+
+```{r}
+comparison |>
+  mutate(
+    mode = ifelse(mode == 0, "Minor", "Major")
+    ) |>
+  ggplot(
+    aes(
+      x = danceability, 
+      y = valence, 
+      color = category,
+      shape = mode)
+    ) + 
+    geom_point() + 
+    geom_jitter(
+      alpha = 0.1
+      ) + 
+    facet_wrap(
+      ~category
+      ) +
+    labs(
+      title = "The effect of danceability on valence, with shape indicating major or minor", 
+      x = "Danceability", 
+      y = "Valence"
+    )
+```
+  
+The graph below show the danceability's effect on valence, with the shape indicating the mode of the song, i.e., whether it is major or minor. Overall, there seems to be a trend of danceability having an effect on valency in the US group, as there is more of a cluster where the danceability is high and having a high valence. A similar trend seems to be the case in the Japanese group as well. However, whereas many of the songs in the US group has a danceability over 0.8, with high valance, this is not really the case for the other group. Many of the latter's songs are under 0.8 in danceability, but have a high valence nonetheless. For both groups, there seem to be no striking pattern at first glance for the mode.  
+
+To conclude the homework for this time, I would like to mention that these plots are not necessarily finished, as there are many things I would like to include - like a linear model showing the trends, as well as aestethic matters. However, due to lack of time, this will have to be included later, but it will be done.  
 
