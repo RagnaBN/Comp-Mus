@@ -165,6 +165,32 @@ int_danceability <- comparison |>
 ggplotly(int_danceability)
 ```
 
+### Chromagram of Billie Jean 
+
+```{r}
+bjean <- 
+    get_tidy_audio_analysis("7J1uxwnxfQLu4APicE5Rnj") |>
+    select(segments) |>
+    unnest(segments) |>
+    select(start, duration, pitches)
+
+bjean |>
+  mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+  compmus_gather_chroma() |> 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme_minimal() +
+  scale_fill_viridis_c()
+```
+
 
 Danceability, valence and mode {data-navmenu=Visualizations}
 ==========================================
