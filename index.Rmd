@@ -1,28 +1,62 @@
 ---
-title: "Portfolio Computational Musicology"
-author: "Ragna Nilsen"
-date: "`r Sys.Date()`"
-output: html_document
+title: "City Pop vs US Pop"
+author: 
+date: 
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    storyboard: true
 ---
 
-```{r}
+```{r setup, include=FALSE}
 library(tidyverse)
 library(spotifyr)
 library(ggplot2)
+library(flexdashboard)
+library(plotly)
 ```
 
+City Pop and Pop, the same despite being a world apart from one another? 
+=======================================
 
-## The corpus:  
-These playlists are personally made playlists based on what is popular by six artists divided by two geographical areas. I tried to limit to approximately one album from each artist, but if I saw something that would loosely be considered pop/city pop I added them to the playlist. They are approximately from the same era (late seventies to early eighties). 
+Column
+--------------------------------------
+
+### The corpus:  
+
+ -PLEASE DO NOT SHOW THIS PORTFOLIO IN CLASS-   
+    
+ 
+I am comparing two playlists consisting of three artists, one Japanese group and one US playlist. The Japanese group consist of the artists Taeko Onuki, Miki Matsubara and Anri. The US counterparts are the artists Michael Jackson, Whitney Houston and Madonna. I chose these corpora because I want to explore whether there are distinct differences between the genre of (city) pop as it was in Japan in the 80's vs the pop that was popular in the western world in the same decade. Japanese city pop was influenced by western music, so I expect there to be many similarities in use of sound, instruments and type of rhythms. However, an aspect I am particularly interested whether there is a difference is the prevalence of bass, and rhythms. It is also interesting to see whether there are differences in other aspects like "supplementary" sounds. However, I am unsure to what extent they are different.  
+    
+As I have chosen three artists to represent their own (variety) of genres, there might be nuances and representations I am missing. Taeko Onuki, Miki Matsubara and Anri were chosen due to their popularity on Spotify (the amount of general listeners as well as listens to their tracks). I also have to mention that there were personal selections. The same method was done in choosing the western counterparts. However, the genre(s) is (are) very broad, despite its popularity, and some varieties might have been overlooked. However, their popularity is a strength. 
   
-```{r}
+
+
+***
+
+Typical, and popular, tracks from the Japanese playlist are:
+
+  - "Mayonaka no Door / Stay With Me" - Miki Matsubara
+  - "4:00A.M." - Taeko Onuki
+  - "Remember Summer Days" - Anri  
+
+These songs are typical in the sense that there are prominent use of basslines and clear rhythms, and have many "layers" to them. 
+
+The western counterparts have typical tracks like: 
+
+  - "Billie Jean" - Michael Jackson
+  - "I Wanna Dance with Somebody (Who Loves Me)"
+  - "La Isla Bonita" - Madonna  
+  
+These last three tracks especially has the typical and distinct features of pop of the 80's, namely the sharp drums and the heavily synthesized piano sounds and, what I think, an almost like a "dreamy" sound to them. 
+  
+```{r load data, include=FALSE}
 cityPopPlaylist <- get_playlist_audio_features("", "7LNMKu5boirXk30CB0mh7W")
 popPlaylist <- get_playlist_audio_features("", "64h8THGlWTBkbE7sqhRV4V")
 ```
 
-
-
-```{r}
+```{r bind data, include=FALSE}
 comparison <- 
     bind_rows(
       cityPopPlaylist |> mutate(category = "City Pop"),
@@ -30,12 +64,39 @@ comparison <-
     )
 ```
 
-## Tempo, danceability and energy  
 
+Tempo, danceability and energy {data-navmenu=Visualizations}
+===========================================
 
-```{r}
+Column {.tabset}
+-------------------------------------------
+
+### Distribution of energy between City Pop and US Pop  
+
+```{r static plot}
 comparison |> 
-  ggplot(
+ ggplot(
+    aes(
+      x = energy, fill = category
+      )
+    ) + 
+  geom_histogram(
+    binwidth = 0.1, 
+    position = position_dodge(0.3)
+    ) + 
+  labs(
+    y = "Amount of Songs", 
+    x = "Energy", 
+    title = "Distribution of Energy between City Pop and Pop", 
+    citation = "Data: Personal Playlists")
+```
+
+> Here are plots to give insight in the general tempos effect on danceability (and energy) in the groups City Pop and US Pop. In the first histogram plot, one can see that the distribution of energy is more even for pop than for city pop. It says that it counted 15 of the data in my playlist for City Pop to have an energy of a little over 0.6.  
+
+### Interactive Histogram 
+```{r interactive plot}
+energy_hist <- comparison |> 
+ ggplot(
     aes(
       x = energy, fill = category
       )
@@ -50,12 +111,16 @@ comparison |>
     title = "Distribution of Energy between City Pop and Pop", 
     citation = "Data: Personal Playlists")
 
+ggplotly(energy_hist)
 ```
-  
-Here are plots to give insight in the general tempos effect on danceability (and energy) in the groups City Pop and US Pop. In the first histogram plot, one can see that the distribution of energy is more even for pop than for city pop. It says that it counted 15 of the data in my playlist for City Pop to have an energy of a little over 0.6.  
 
 
-```{r}
+Column {.tabset}
+-----------------------------------------------
+
+### Energy, danceability and tempo 
+
+```{r static, warning=FALSE}
 comparison |>
   ggplot(
     aes(
@@ -73,20 +138,63 @@ comparison |>
     facet_wrap(~category) +
     labs(title = "The effect of energy on danceability for City Pop and US Pop")
 ```
+*** 
   
-Here is a plot of the effect of energy on danceability, with size of the plots as well as the band around the line indicating the tempo of the songs. One can see that there is more of a linear trend with US Pop, indicating that up until around energy of 0.5 there seems to be a correlation between energy and danceability. Tempo, however, do seem to have no pattern at first glance. Whereas for the City Pop playlist, there seem to be a slight curve in the beginning of the graph, but overall there is a very even trend of the effect of energy on danceability. At first glance, there also seem to be no indication that there is a trend for tempo.  
+> Here is a plot of the effect of energy on danceability, with size of the plots as well as the band around the line indicating the tempo of the songs. One can see that there is more of a linear trend with US Pop, indicating that up until around energy of 0.5 there seems to be a correlation between energy and danceability. Tempo, however, do seem to have no pattern at first glance. Whereas for the City Pop playlist, there seem to be a slight curve in the beginning of the graph, but overall there is a very even trend of the effect of energy on danceability. At first glance, there also seem to be no indication that there is a trend for tempo.  
+
+### Interactive Plot 
+```{r interactive }
+int_danceability <- comparison |>
+  ggplot(
+    aes(
+      x = energy, 
+      y = danceability, 
+      color = category, 
+      size = tempo
+      )
+    ) + 
+    geom_point(
+      alpha = 0.5
+      ) + 
+    geom_jitter() +
+    geom_smooth() +
+    facet_wrap(~category) +
+    labs(title = "The effect of energy on danceability for City Pop and US Pop")
+
+ggplotly(int_danceability)
+```
 
 
-## Valence, danceability and mode  
+Danceability, valence and mode {data-navmenu=Visualizations}
+==========================================
 
+Column 
+------------------------------------------
+
+### Other differences {data-width=250}
+
+***
 The previous plots made me think that there is more to the differences between city pop and US pop. Danceability for city pop seemed overall lower than for US pop, indicating that there are more differences in their features than I previously thought. Personally, when listening to city pop, I often get a feeling of a certain melancholy, even while you may want to dance. Therefore, I decided to explore these features.  
 
   
+Column
+-----------------------------------------------
+
+### Distribution of valence {data-width=250}
+
 ```{r}
 comparison |> ggplot(aes(x = valence, fill = category)) + geom_histogram(binwidth = 0.1, position = position_dodge()) + labs(title = "Distribution of Valence in City Pop and US Pop") 
 ```
-  
+ 
+Column 
+--------------------------------------------
+
+### Danceability, valence and mode {data-width=500}
+
+***
+
 Starting with valence, I wanted to see whether there were differences in distributions for the valence in the two groups/playlists. The histogram below does seem to indicate that there is more songs that are considered very happy, but this could be attributed to the fact that the city pop playlist has more songs than in the US Pop playlist. Therefore, I made another scatterplot to explore further.  
+
 
 
 ```{r}
@@ -115,7 +223,21 @@ comparison |>
     )
 ```
   
-The graph below show the danceability's effect on valence, with the shape indicating the mode of the song, i.e., whether it is major or minor. Overall, there seems to be a trend of danceability having an effect on valency in the US group, as there is more of a cluster where the danceability is high and having a high valence. A similar trend seems to be the case in the Japanese group as well. However, whereas many of the songs in the US group has a danceability over 0.8, with high valance, this is not really the case for the other group. Many of the latter's songs are under 0.8 in danceability, but have a high valence nonetheless. For both groups, there seem to be no striking pattern at first glance for the mode.  
+ > The graph below show the danceability's effect on valence, with the shape indicating the mode of the song, i.e., whether it is major or minor. Overall, there seems to be a trend of danceability having an effect on valency in the US group, as there is more of a cluster where the danceability is high and having a high valence. A similar trend seems to be the case in the Japanese group as well. However, whereas many of the songs in the US group has a danceability over 0.8, with high valance, this is not really the case for the other group. Many of the latter's songs are under 0.8 in danceability, but have a high valence nonetheless. For both groups, there seem to be no striking pattern at first glance for the mode.  
 
-To conclude the homework for this time, I would like to mention that these plots are not necessarily finished, as there are many things I would like to include - like a linear model showing the trends, as well as aestethic matters. However, due to lack of time, this will have to be included later, but it will be done.  
+Conclusions/Summary
+==================================
 
+### Differences in City Pop vs US Pop 
+
+So far we can see that the differences between US Pop and City Pop, based on the corpus I am using, is that energy definitely seem to have an effect on danceability in US pop, up until a certain level. However, there are many outliers that can skew this, which will be identified shortly. Furthermore, it does not seem that tempo has a definite pattern on either energy or danceability. 
+
+Furthermore, another difference is that danceability seem to have more of an effect on the positive valence in both genres. However, one can see that there are more songs in US pop that are more danceable and that are happier than City Pop.  
+
+This makes sense, given the fact that according to the histogram, none of the city pop songs go above a certain threshold of valence, in comparison to US pop. This could indicate that city pop is generally less "happy".  
+
+### Homework Conclusions 
+
+I have managed to do most of the homework for tomorrow! However, I do have issues locating and identifying the outliers and thus will need to get some help to understand these issues. Therefore, there are no analyses on chroma-features yet. I hope to change this at the next seminar. 
+
+As a side-note, I am still unsure whether the variables I am using are effective and make sense in what I try to understand. Does it make sense to use energy on danceability? As well, does it make sense to look at danceabilities effect on valence? If I could get some feedback on this, that would be awesome. Thank you! 
