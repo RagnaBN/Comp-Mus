@@ -14,6 +14,8 @@ library(spotifyr)
 library(ggplot2)
 library(flexdashboard)
 library(plotly)
+library(compmus)
+
 ```
 
 City Pop and Pop, the same despite being a world apart from one another? 
@@ -234,6 +236,8 @@ So far we can see that the differences between US Pop and City Pop, based on the
 Furthermore, another difference is that danceability seem to have more of an effect on the positive valence in both genres. However, one can see that there are more songs in US pop that are more danceable and that are happier than City Pop.  
 
 This makes sense, given the fact that according to the histogram, none of the city pop songs go above a certain threshold of valence, in comparison to US pop. This could indicate that city pop is generally less "happy".  
+
+But one outlier I want to talk about in particular is the one track, in the energy, danceability and tempo plot, where the energy is quite low in comparison to other tracks, but the danceability is one of the highest in the group. While I am not sure how to point this out in the plot, I have managed to identify it as the track "Billie Jean" by Michael Jackson. A seperate chromagram has been made in order to account for this. 
 
 ### Homework Conclusions 
 
