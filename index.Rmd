@@ -268,6 +268,6 @@ But one outlier I want to talk about in particular is the one track, in the ener
 
 ### Homework Conclusions 
 
-I have managed to do most of the homework for tomorrow! However, I do have issues locating and identifying the outliers and thus will need to get some help to understand these issues. Therefore, there are no analyses on chroma-features yet. I hope to change this at the next seminar. 
+I have managed to do most of the homework for tomorrow! However, I am not entirely sure how to identify the outliers in the plot itself, and will ask for help next seminar. Furthermore, I am not entirely sure what is meant by "annotate several key moments". This also I hope I can understand next seminar.
 
 As a side-note, I am still unsure whether the variables I am using are effective and make sense in what I try to understand. Does it make sense to use energy on danceability? As well, does it make sense to look at danceabilities effect on valence? If I could get some feedback on this, that would be awesome. Thank you! 
