@@ -191,6 +191,7 @@ bjean |>
   scale_fill_viridis_c()
 ```
 
+> As one can see in this chromagram, the song "Billie Jean" has several areas where the magnitude is over 0.75. A couple of patterns that arise are the use of the D and C#/Db at before 100 and 200 seconds. They form an almost pyramid shape. However, depsite this, one can see that it is a very energetic song, by the use of the chromas - despite being a very slow and "unenergetic" song. 
 
 Danceability, valence and mode {data-navmenu=Visualizations}
 ==========================================
