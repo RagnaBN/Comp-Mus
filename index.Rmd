@@ -585,7 +585,7 @@ ggplotly(plot_mode)
 The graph below show the danceability's effect on valence, with the shape indicating the mode of the song, i.e., whether it is major or minor. Overall, there seems to be a trend of danceability having an effect on valency in the US group, as there is more of a cluster where the danceability is high and having a high valence. A similar trend seems to be the case in the Japanese group as well. However, whereas many of the songs in the US group has a danceability over 0.8, with high valance, this is not really the case for the other group. Many of the latter's songs are under 0.8 in danceability, but have a high valence nonetheless. For both groups, there seem to be no striking pattern at first glance for the mode.  
 
 
-Conclusions/Summary
+Conclusions/Summary *UPDATED*
 ==================================
 
 ### Differences in City Pop vs US Pop 
@@ -598,8 +598,8 @@ This makes sense, given the fact that according to the histogram, none of the ci
 
 But one outlier I want to talk about in particular is the one track, in the energy, danceability and tempo plot, where the energy is quite low in comparison to other tracks, but the danceability is one of the highest in the group. While I am not sure how to point this out in the plot, I have managed to identify it as the track "Billie Jean" by Michael Jackson. A seperate chromagram has been made in order to account for this. 
 
-### Homework Conclusions 
+### Homework Comments *UPDATED*
 
-I have managed to do most of the homework for tomorrow! However, I am not entirely sure how to identify the outliers in the plot itself, and will ask for help next seminar. Furthermore, I am not entirely sure what is meant by "annotate several key moments". This also I hope I can understand next seminar.
+Due to illnesses that have lasted for exactly a week, I have not been able to do much commentary on the new additions to my portfolio aside from just doing the actual homework. This is why you see that "Homework 9" is missing. I hope to add more when I have the time, as well as feeling a bit better. 
 
-As a side-note, I am still unsure whether the variables I am using are effective and make sense in what I try to understand. Does it make sense to use energy on danceability? As well, does it make sense to look at danceabilities effect on valence? If I could get some feedback on this, that would be awesome. Thank you! 
+
