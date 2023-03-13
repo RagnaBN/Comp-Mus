@@ -285,7 +285,7 @@ wanna_dance |>
 
 ```{r}
 material_girl <-
-  get_tidy_audio_analysis("1qUo7d5lAOclNVbTUY0A2R") |>
+  get_tidy_audio_analysis("7bkyXSi4GtVfD7itZRUR3e") |>
   compmus_align(sections, segments) |>
   select(sections) |>
   unnest(sections) |>
@@ -299,7 +299,7 @@ material_girl <-
 ```
 
 ```{r}
-remember |> 
+material_girl |> 
   compmus_match_pitch_template(
     chord_templates,         # Change to chord_templates if desired
     method = "euclidean",  # Try different distance metrics
@@ -318,8 +318,8 @@ remember |>
 ### Thriller 
 
 ```{r}
-remember <-
-  get_tidy_audio_analysis("1qUo7d5lAOclNVbTUY0A2R") |>
+thriller <-
+  get_tidy_audio_analysis("2LlQb7Uoj1kKyGhlkBf9aC") |>
   compmus_align(sections, segments) |>
   select(sections) |>
   unnest(sections) |>
@@ -333,7 +333,7 @@ remember <-
 ```
 
 ```{r}
-remember |> 
+thriller |> 
   compmus_match_pitch_template(
     chord_templates,         # Change to chord_templates if desired
     method = "euclidean",  # Try different distance metrics
@@ -488,10 +488,7 @@ comparison |> ggplot(aes(x = valence, fill = category)) + geom_histogram(binwidt
 
 ### Danceability, valence and mode
 
-***
-
 Starting with valence, I wanted to see whether there were differences in distributions for the valence in the two groups/playlists. The histogram below does seem to indicate that there is more songs that are considered very happy, but this could be attributed to the fact that the city pop playlist has more songs than in the US Pop playlist. Therefore, I made another scatterplot to explore further.  
-
 
 
 ```{r}
