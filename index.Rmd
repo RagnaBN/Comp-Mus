@@ -32,7 +32,7 @@ comparison <-
 ```
 
 
-Histograms of keys
+Histograms of keys *NEW*
 =======================================
 
 ```{r}
@@ -56,7 +56,7 @@ ggplotly(energy_hist)
 ```
 
 
-Chordograms of Archetypes {.storyboard}
+Chordograms of Archetypes *NEW* {.storyboard}
 =======================================
 
 ```{r, include=FALSE}
@@ -349,6 +349,64 @@ thriller |>
 ```
 
 
+Standard Deviation Plot *NEW*
+==============================
+
+```{r}
+city_Pop <-
+  get_playlist_audio_features(
+    "Computational Musicology Japanese",
+    "7LNMKu5boirXk30CB0mh7W"
+  ) |>
+  slice(1:30) |>
+  add_audio_analysis()
+us_Pop <-
+  get_playlist_audio_features(
+    "Computational Musicology American",
+    "64h8THGlWTBkbE7sqhRV4V"
+  ) |>
+  slice(1:30) |>
+  add_audio_analysis()
+pop <-
+  city_Pop |>
+  mutate(genre = "City Pop") |>
+  bind_rows(us_Pop |> mutate(genre = "U.S. Pop"))
+```
+
+```{r}
+pop |>
+  mutate(
+    sections =
+      map(
+        sections,                                    # sections or segments
+        summarise_at,
+        vars(tempo, loudness, duration),             # features of interest
+        list(section_mean = mean, section_sd = sd)   # aggregation functions
+      )
+  ) |>
+  unnest(sections) |>
+  ggplot(
+    aes(
+      x = loudness,
+      y = loudness_section_sd,
+      colour = genre,
+      alpha = tempo
+    )
+  ) +
+  geom_point(aes(size = duration / 60)) +
+  geom_rug() +
+  theme_minimal() +
+  ylim(0, 10) +
+  labs(
+    x = "Mean Loudness",
+    y = "SD Loudness",
+    colour = "Genre",
+    size = "Duration (min)",
+    alpha = "Tempo"
+  )
+```
+
+
 City Pop and Pop, the same despite being a world apart from one another? 
 =======================================
 
@@ -410,7 +468,7 @@ energy_hist <- comparison |>
 ggplotly(energy_hist)
 ```
 
-> Here are plots to give insight in the general tempos effect on danceability (and energy) in the groups City Pop and US Pop. In the first histogram plot, one can see that the distribution of energy is more even for pop than for city pop. It says that it counted 15 of the data in my playlist for City Pop to have an energy of a little over 0.6.  
+ Here are plots to give insight in the general tempos effect on danceability (and energy) in the groups City Pop and US Pop. In the first histogram plot, one can see that the distribution of energy is more even for pop than for city pop. It says that it counted 15 of the data in my playlist for City Pop to have an energy of a little over 0.6.  
 
 
 
@@ -438,10 +496,10 @@ int_danceability <- comparison |>
 ggplotly(int_danceability)
 ```
 
-> Here is a plot of the effect of energy on danceability, with size of the plots as well as the band around the line indicating the tempo of the songs. One can see that there is more of a linear trend with US Pop, indicating that up until around energy of 0.5 there seems to be a correlation between energy and danceability. Tempo, however, do seem to have no pattern at first glance. Whereas for the City Pop playlist, there seem to be a slight curve in the beginning of the graph, but overall there is a very even trend of the effect of energy on danceability. At first glance, there also seem to be no indication that there is a trend for tempo.  
+Here is a plot of the effect of energy on danceability, with size of the plots as well as the band around the line indicating the tempo of the songs. One can see that there is more of a linear trend with US Pop, indicating that up until around energy of 0.5 there seems to be a correlation between energy and danceability. Tempo, however, do seem to have no pattern at first glance. Whereas for the City Pop playlist, there seem to be a slight curve in the beginning of the graph, but overall there is a very even trend of the effect of energy on danceability. At first glance, there also seem to be no indication that there is a trend for tempo.  
 
 
-Chromagram of Billie Jean
+Chromagram of Billie Jean *UPDATED*
 ====================================
 
 
@@ -469,7 +527,8 @@ bjean |>
   scale_fill_viridis_c()
 ```
 
-> As one can see in this chromagram, the song "Billie Jean" has several areas where the magnitude is over 0.75. A couple of patterns that arise are the use of the D and C#/Db at before 100 and 200 seconds. They form an almost pyramid shape. However, depsite this, one can see that it is a very energetic song, by the use of the chromas - despite being a very slow and "unenergetic" song. 
+"Billie Jean" was listed as an outlier for the Pop group in the graph of whether energy has an effect on danceability, in the sense that Spotify notices this as a quite unenergetic song, while having an extremely high danceability. As one can see in this chromagram, the song "Billie Jean" has several areas where the magnitude is over 0.75. A couple of patterns that arise are the use of the D and C#/Db at before 100 and 200 seconds. They form an almost pyramid shape. However, depsite this, one can see that it is a very energetic song, by the use of the chromas - despite being a very slow and "unenergetic" song. 
+
 
 Danceability, valence and mode {.storyboard}
 ==========================================
