@@ -56,7 +56,7 @@ ggplotly(energy_hist)
 ```
 
 
-Chordograms {.storyboard}
+Chordograms of Archetypes {.storyboard}
 =======================================
 
 ```{r, include=FALSE}
@@ -148,7 +148,7 @@ key_templates <-
 ```
 
 
-### Mayonaka no Door/Stay With Me CP
+### Mayonaka no Door/Stay With Me     City Pop
 ```{r}
 Stay <-
   get_tidy_audio_analysis("2BHj31ufdEqVK5CkYDp9mA") |>
@@ -180,7 +180,7 @@ Stay |>
   labs(x = "Time (s)", y = "")
 ```
 
-### 4:00A.M. CP
+### 4:00A.M.     City Pop
 
 ```{r}
 four_am <-
@@ -214,7 +214,7 @@ four_am |>
 ```
 
 
-### Remember Summer Days CP
+### Remember Summer Days     City Pop
 
 ```{r}
 remember <-
@@ -247,7 +247,7 @@ remember |>
   labs(x = "Time (s)", y = "")
 ```
 
-### I Wanna Dance With Somebody (Who Loves Me)
+### I Wanna Dance With Somebody (Who Loves Me)     Pop
 
 ```{r}
 wanna_dance <-
@@ -281,7 +281,7 @@ wanna_dance |>
 ```
 
 
-### Material Girl 
+### Material Girl     Pop
 
 ```{r}
 material_girl <-
@@ -315,7 +315,7 @@ material_girl |>
 ```
 
 
-### Thriller 
+### Thriller     Pop
 
 ```{r}
 thriller <-
