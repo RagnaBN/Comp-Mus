@@ -32,7 +32,18 @@ comparison <-
 ```
 
 
-Histograms of keys *NEW*
+
+Tempograms of archetypes & outliers *NEW* 
+======================================
+
+```{r}
+
+```
+
+
+
+
+Histograms of keys 
 =======================================
 
 ```{r}
@@ -60,7 +71,7 @@ ggplotly(energy_hist)
 > As one can see from the graph here, the distribution of keys between each song in each of my corpus group are, overall, quite evenly distributed. However, one can tell that different groups often prefer different keys.   City Pop seems to prefer keys that are in C, D, F, and G for the most part, whereas U.S. Pop, while sharing a decent amount of songs in C as well, seem to also prefer D#, A, and B - unlike City Pop. It should be noted however, that there are a few songs more in the city pop group than the U.S. one, so it can skew the distributions. 
 
 
-Chordograms of Archetypes *NEW* {.storyboard}
+Chordograms of Archetypes {.storyboard}
 =======================================
 
 ```{r, include=FALSE}
@@ -184,6 +195,7 @@ Stay |>
   labs(x = "Time (s)", y = "")
 ```
 
+
 ### 4:00A.M.     City Pop
 
 ```{r}
@@ -250,6 +262,7 @@ remember |>
   theme_minimal() +
   labs(x = "Time (s)", y = "")
 ```
+
 
 ### I Wanna Dance With Somebody (Who Loves Me)     Pop
 
@@ -425,8 +438,6 @@ I am comparing two playlists consisting of three artists, one Japanese group and
 As I have chosen three artists to represent their own (variety) of genres, there might be nuances and representations I am missing. Taeko Onuki, Miki Matsubara and Anri were chosen due to their popularity on Spotify (the amount of general listeners as well as listens to their tracks). I also have to mention that there were personal selections. The same method was done in choosing the western counterparts. However, the genre(s) is (are) very broad, despite its popularity, and some varieties might have been overlooked. However, their popularity is a strength. 
   
 
-***
-
 Typical, and popular, tracks from the Japanese playlist are:
 
   - "Mayonaka no Door / Stay With Me" - Miki Matsubara
@@ -448,18 +459,6 @@ Atypical songs can include:
   - "Billie Jean" by Michael Jackson  
 
 This was an interesting find that proved to be quite interesting in the 
-
-
-
-
-
-
-
-
-
-
-
-Here is a plot of the effect of energy on danceability, with size of the plots as well as the band around the line indicating the tempo of the songs. One can see that there is more of a linear trend with US Pop, indicating that up until around energy of 0.5 there seems to be a correlation between energy and danceability. Tempo, however, do seem to have no pattern at first glance. Whereas for the City Pop playlist, there seem to be a slight curve in the beginning of the graph, but overall there is a very even trend of the effect of energy on danceability. At first glance, there also seem to be no indication that there is a trend for tempo.  
 
 
 Chromagram of Billie Jean *UPDATED*
@@ -490,20 +489,19 @@ bjean |>
   scale_fill_viridis_c()
 ```
 
-"Billie Jean" was listed as an outlier for the Pop group in the graph of whether energy has an effect on danceability, in the sense that Spotify notices this as a quite unenergetic song, while having an extremely high danceability. As one can see in this chromagram, the song "Billie Jean" has several areas where the magnitude is over 0.75. A couple of patterns that arise are the use of the D and C#/Db at before 100 and 200 seconds. They form an almost pyramid shape. However, depsite this, one can see that it is a very energetic song, by the use of the chromas - despite being a very slow and "unenergetic" song. 
+***  
+
+"Billie Jean" was listed as an outlier for the Pop group in the graph of whether energy has an effect on danceability, in the sense that Spotify notices this as a non energetic song, while having an extremely high danceability. As one can see in this chromagram, the song "Billie Jean" has several areas where the magnitude is over 0.75. A couple of patterns that arise are the use of the D and C#/Db at before 100 and 200 seconds. They form an almost pyramid shape. However, depsite this, one can see that it is a very energetic song, by the use of the chromas - despite being a very slow and "unenergetic" song. 
 
 
 Graphs {.storyboard}
 ==========================================
 
 
-The previous plots made me think that there is more to the differences between city pop and US pop. Danceability for city pop seemed overall lower than for US pop, indicating that there are more differences in their features than I previously thought. Personally, when listening to city pop, I often get a feeling of a certain melancholy, even while you may want to dance. Therefore, I decided to explore these features.  
 
 
-# Distribution of valence
-
-```{r}
-#comparison |> ggplot(aes(x = valence, fill = category)) + geom_histogram(binwidth = 0.1, position = position_dodge()) + labs(title = "Distribution of Valence in City Pop and US Pop") 
+```{r, include=FALSE}
+#comparison |> ggplot(aes(x = valence, fill = category)) + geom_histogram(binwidth = 0.1, position = position_dodge()) + labs(title = "Distribution of Valence in City Pop and US Pop") Distribution of valence
 ```
  
 
@@ -567,7 +565,7 @@ ggplotly(plot_mode)
 
 *** 
 
- 
+Here is a plot of the effect of energy on danceability, with size of the plots as well as the band around the line indicating the tempo of the songs. One can see that there is more of a linear trend with US Pop, indicating that up until around energy of 0.5 there seems to be a correlation between energy and danceability. Tempo, however, do seem to have no pattern at first glance. Whereas for the City Pop playlist, there seem to be a slight curve in the beginning of the graph, but overall there is a very even trend of the effect of energy on danceability. At first glance, there also seem to be no indication that there is a trend for tempo.  
 
 
 ### Energy, danceability and tempo 
