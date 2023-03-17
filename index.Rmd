@@ -407,7 +407,7 @@ pop |>
       x = tempo,
       y = tempo_section_sd,
       colour = genre,
-      alpha = tempo
+      alpha = loudness
     )
   ) +
   geom_point(aes(size = duration / 60)) +
@@ -536,7 +536,7 @@ Starting with valence, I wanted to see whether there were differences in distrib
 
 
 ```{r}
-plot_mode <- comparison |>
+comparison |>
   mutate(
     mode = ifelse(mode == 0, "Minor", "Major")
     ) |>
@@ -545,22 +545,23 @@ plot_mode <- comparison |>
       x = tempo, 
       y = energy, 
       color = category,
+      size = loudness
       )
     ) + 
-    geom_point() + 
-    geom_jitter(
-      alpha = 0.1
-      ) + 
+    geom_point(
+       alpha = 0.2
+    ) + 
+    geom_jitter() + 
     facet_wrap(
       ~category
       ) +
     labs(
       title = "The effect of tempo on energy between groups", 
       x = "Tempo", 
-      y = "Energy"
+      y = "Energy",
+      size = "Loudness", 
+      color = "Genre"
     )
-
-ggplotly(plot_mode)
 ```
 
 *** 
@@ -568,11 +569,11 @@ ggplotly(plot_mode)
 Here is a plot of the effect of energy on danceability, with size of the plots as well as the band around the line indicating the tempo of the songs. One can see that there is more of a linear trend with US Pop, indicating that up until around energy of 0.5 there seems to be a correlation between energy and danceability. Tempo, however, do seem to have no pattern at first glance. Whereas for the City Pop playlist, there seem to be a slight curve in the beginning of the graph, but overall there is a very even trend of the effect of energy on danceability. At first glance, there also seem to be no indication that there is a trend for tempo.  
 
 
-### Energy, danceability and tempo 
+### Energy, danceability and valence 
 
 
 ```{r interactive }
-int_danceability <- comparison |>
+comparison |>
   ggplot(
     aes(
       x = energy, 
@@ -582,15 +583,16 @@ int_danceability <- comparison |>
       )
     ) + 
     geom_point(
-      alpha = 0.5
       ) + 
     geom_jitter() +
-    geom_smooth() +
     facet_wrap(~category) +
-    labs(title = "The effect of energy on danceability for City Pop and US Pop")
-
-ggplotly(int_danceability)
+    labs(
+      title = "The effect of energy on danceability for City Pop and US Pop", 
+      shape = "Valence", 
+      x = "Energy", 
+      y = "Danceability")
 ```
+
 
 Conclusions/Summary *UPDATED*
 ==================================
