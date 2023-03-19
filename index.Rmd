@@ -1,11 +1,10 @@
 ---
 title: "City Pop and Pop, the same despite being a world apart from one another?"
-author: 
-date: 
+author: Ragna Nilsen
 output: 
   flexdashboard::flex_dashboard:
-    storyboard: true
     orientation: columns 
+    vertical_layout: fill
 ---
 
 ```{r setup, include=FALSE}
@@ -36,7 +35,7 @@ Histogram of tempi in my corpus *NEW*
 ======================================
 
 ```{r}
-tempo_hist <- comparison |> 
+comparison |> 
  ggplot(
     aes(
       x = tempo, fill = category
@@ -46,14 +45,13 @@ tempo_hist <- comparison |>
     binwidth = 5, 
     position = position_dodge(0.3)
     ) + 
-  facet_wrap(~category)
+  facet_wrap(~category) + 
   labs(
     y = "Amount of Songs", 
     x = "Tempo", 
     title = "Tempo distribution between City Pop and Pop", 
-    citation = "Data: Personal Playlists")
-
-ggplotly(tempo_hist)
+    citation = "Data: Personal Playlists", 
+    fill = "Genre")
 ```
 
 ***
