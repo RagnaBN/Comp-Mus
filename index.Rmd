@@ -32,15 +32,52 @@ comparison <-
 ```
 
 
-
-Tempograms of archetypes & outliers *NEW* 
+Histogram of tempi in my corpus *NEW*
 ======================================
 
 ```{r}
+tempo_hist <- comparison |> 
+ ggplot(
+    aes(
+      x = tempo, fill = category
+      )
+    ) + 
+  geom_histogram(
+    binwidth = 5, 
+    position = position_dodge(0.3)
+    ) + 
+  facet_wrap(~category)
+  labs(
+    y = "Amount of Songs", 
+    x = "Tempo", 
+    title = "Tempo distribution between City Pop and Pop", 
+    citation = "Data: Personal Playlists")
+
+ggplotly(tempo_hist)
+```
+
+***
+
+Here is the distribution of tempi within my corpus, divided between the Japanese group and the U.S. group. As the graphs show, there are distinct differences in which tempo is preferred in the western world - which one can see is around 120 bpm. Interestingly, this corresponds well to the research that has been conducted where 120-125 bpm seems to be a natural tempo for humans and a link between the natural tempo and bpm in music has been found. However, according to the corpus I am using, this is not the case for the eastern world. The distribution here is more even, with more songs being in the range of 100-135 bpm. However, there are more songs that lay around the 105 bpm mark. 
+
+
+
+
+Tempograms of archetypes & outliers *NEW* {.storyboard}
+======================================
+
+
+### Outliers 
+```{r outlier ANRI 180 bpm}
+
+```
+
+```{r, whitney 175 bpm}
 
 ```
 
 
+### Archetypes 
 
 
 Histograms of keys 
@@ -54,14 +91,15 @@ energy_hist <- comparison |>
       )
     ) + 
   geom_histogram(
-    binwidth = 0.1, 
+    binwidth = 0.5, 
     position = position_dodge(0.3)
     ) + 
   labs(
     y = "Amount of Songs", 
     x = "Key", 
     title = "Key distribution between City Pop and Pop", 
-    citation = "Data: Personal Playlists")
+    citation = "Data: Personal Playlists", 
+    fill = "Genre")
 
 ggplotly(energy_hist)
 ```
@@ -496,8 +534,6 @@ bjean |>
 
 Graphs {.storyboard}
 ==========================================
-
-
 
 
 ```{r, include=FALSE}
