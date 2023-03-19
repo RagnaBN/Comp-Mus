@@ -3,7 +3,7 @@ title: "City Pop and Pop, the same despite being a world apart from one another?
 author: Ragna Nilsen
 output: 
   flexdashboard::flex_dashboard:
-    orientation: columns 
+    orientation: rows
     vertical_layout: fill
 ---
 
@@ -14,7 +14,6 @@ library(ggplot2)
 library(flexdashboard)
 library(plotly)
 library(compmus)
-
 ```
 
 ```{r load data, include=FALSE}
@@ -31,8 +30,10 @@ comparison <-
 ```
 
 
-Histogram of tempi in my corpus *NEW*
+Tempi *NEW* {.storyboard}
 ======================================
+
+### Histogram of tempi 
 
 ```{r}
 comparison |> 
@@ -54,33 +55,32 @@ comparison |>
     fill = "Genre")
 ```
 
-***
+***  
 
 Here is the distribution of tempi within my corpus, divided between the Japanese group and the U.S. group. As the graphs show, there are distinct differences in which tempo is preferred in the western world - which one can see is around 120 bpm. Interestingly, this corresponds well to the research that has been conducted where 120-125 bpm seems to be a natural tempo for humans and a link between the natural tempo and bpm in music has been found. However, according to the corpus I am using, this is not the case for the eastern world. The distribution here is more even, with more songs being in the range of 100-135 bpm. However, there are more songs that lay around the 105 bpm mark. 
 
+Aside from the obvious archetypes in this distribution, there
 
 
+### Tempograms of outliers  
 
-Tempograms of archetypes & outliers *NEW* {.storyboard}
-======================================
-
-
-### Outliers 
 ```{r outlier ANRI 180 bpm}
 
 ```
+
+
+### Tempograms of Archetypes 
 
 ```{r, whitney 175 bpm}
 
 ```
 
 
-### Archetypes 
-
 
 Histograms of keys 
 =======================================
 
+### Chart {data-width=500}
 ```{r}
 energy_hist <- comparison |> 
  ggplot(
@@ -103,8 +103,9 @@ ggplotly(energy_hist)
 ```
 
 
+### Commentary {data-width=500}
 
-> As one can see from the graph here, the distribution of keys between each song in each of my corpus group are, overall, quite evenly distributed. However, one can tell that different groups often prefer different keys.   City Pop seems to prefer keys that are in C, D, F, and G for the most part, whereas U.S. Pop, while sharing a decent amount of songs in C as well, seem to also prefer D#, A, and B - unlike City Pop. It should be noted however, that there are a few songs more in the city pop group than the U.S. one, so it can skew the distributions. 
+As one can see from the graph here, the distribution of keys between each song in each of my corpus group are, overall, quite evenly distributed. However, one can tell that different groups often prefer different keys.   City Pop seems to prefer keys that are in C, D, F, and G for the most part, whereas U.S. Pop, while sharing a decent amount of songs in C as well, seem to also prefer D#, A, and B - unlike City Pop. It should be noted however, that there are a few songs more in the city pop group than the U.S. one, so it can skew the distributions. 
 
 
 Chordograms of Archetypes {.storyboard}
@@ -497,10 +498,10 @@ Atypical songs can include:
 This was an interesting find that proved to be quite interesting in the 
 
 
-Chromagram of Billie Jean *UPDATED*
+Chromagram *UPDATED*
 ====================================
 
-
+### Billie Jean - Michael Jackson {data-width=700}
 ```{r}
 bjean <- 
     get_tidy_audio_analysis("7J1uxwnxfQLu4APicE5Rnj") |>
@@ -525,7 +526,7 @@ bjean |>
   scale_fill_viridis_c()
 ```
 
-***  
+### Commentary {data-width=300}
 
 "Billie Jean" was listed as an outlier for the Pop group in the graph of whether energy has an effect on danceability, in the sense that Spotify notices this as a non energetic song, while having an extremely high danceability. As one can see in this chromagram, the song "Billie Jean" has several areas where the magnitude is over 0.75. A couple of patterns that arise are the use of the D and C#/Db at before 100 and 200 seconds. They form an almost pyramid shape. However, depsite this, one can see that it is a very energetic song, by the use of the chromas - despite being a very slow and "unenergetic" song. 
 
