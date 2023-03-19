@@ -57,23 +57,19 @@ comparison |>
 
 ***  
 
-Here is the distribution of tempi within my corpus, divided between the Japanese group and the U.S. group. As the graphs show, there are distinct differences in which tempo is preferred in the western world - which one can see is around 120 bpm. Interestingly, this corresponds well to the research that has been conducted where 120-125 bpm seems to be a natural tempo for humans and a link between the natural tempo and bpm in music has been found. However, according to the corpus I am using, this is not the case for the eastern world. The distribution here is more even, with more songs being in the range of 100-135 bpm. However, there are more songs that lay around the 105 bpm mark. 
+Here is the distribution of tempi within my corpus, divided between the Japanese group and the U.S. group. As the graphs show, there are distinct differences in which tempo is preferred in the western world - which one can see is around 120 bpm. Interestingly, this corresponds well to the research that has been conducted where 120-125 bpm seems to be a natural tempo for humans and a link between the natural tempo and bpm in music has been found. However, according to the corpus I am using, this is not the case for the eastern world. The distribution here is more even, with more songs being in the range of 100-135 bpm. However, there are more songs that lie around the 105 bpm mark. 
 
-Aside from the obvious archetypes in this distribution, there
+Aside from the obvious archetypes in this distribution, there are two outliers from each group. These are the songs "A HOPE FROM SAD STREET" by Anri, and "Love Is a Contact Sport" by Whitney Houston. They each have tempi that lie around 180 and 175 bpm respectively. 
 
 
 ### Tempograms of outliers  
 
-```{r outlier ANRI 180 bpm}
 
-```
 
 
 ### Tempograms of Archetypes 
 
-```{r, whitney 175 bpm}
 
-```
 
 
 
