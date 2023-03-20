@@ -14,7 +14,7 @@ library(ggplot2)
 library(flexdashboard)
 library(plotly)
 library(compmus)
-library(cowplot)
+library(knitr)
 ```
 
 ```{r load data, include=FALSE}
@@ -65,6 +65,9 @@ Aside from the obvious archetypes in this distribution, there are two outliers f
 
 ### Tempograms of outliers  
 
+```{r}
+knitr::include_graphics("billiejean.png")
+```
 
 
 
@@ -397,7 +400,7 @@ thriller |>
 ```
 
 
-Introduction {.storyboard}
+Introduction
 =======================================
 
  -PLEASE DO NOT SHOW THIS PORTFOLIO IN CLASS-   
