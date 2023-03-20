@@ -63,17 +63,36 @@ Here is the distribution of tempi within my corpus, divided between the Japanese
 Aside from the obvious archetypes in this distribution, there are two outliers from each group. These are the songs "A HOPE FROM SAD STREET" by Anri, and "Love Is a Contact Sport" by Whitney Houston. They each have tempi that lie around 180 and 175 bpm respectively. 
 
 
-### Tempograms of outliers  
+### Billie Jean - our atypical song 
 
 ```{r}
 knitr::include_graphics("billiejean.png")
 ```
 
+***  
+
+Here is the tempogram of 
 
 
-### Tempograms of Archetypes 
+### A Hope From Sad Street - An Outlier in Distribution
 
+```{r}
+knitr::include_graphics("sad-street.png")
+```
 
+### Love Is a Contact Sport - Western Outlier in Distribution
+
+```{r}
+knitr::include_graphics("contact-sport.png")
+```
+
+### Interesting find - Cat's Eye by Anri
+
+```{r}
+knitr::include_graphics("catseye.png")
+```
+
+***
 
 
 
