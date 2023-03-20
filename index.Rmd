@@ -71,7 +71,7 @@ knitr::include_graphics("billiejean.png")
 
 ***  
 
-Here is the tempogram of 
+Here is the tempogram of the indentified outlier from the graph of energy's effect on danceability, where the energy is low, but danceability is high. This is a completely standard tempogram, in terms of the overall execution of the formulations on this piece as there are no disturbances or anything that went wrong. "Billie Jean" is a very stereotypical song in this regard, with a bpm of approximately 120 and very steady beat, rhythm and tempo that do not seem to change. This is probably a part of the reason the overall danceability of this piece is very high, in spite that its energy is very low. 
 
 
 ### A Hope From Sad Street - An Outlier in Distribution
@@ -80,11 +80,22 @@ Here is the tempogram of
 knitr::include_graphics("sad-street.png")
 ```
 
+***  
+
+Providing the distribution of tempi in the form of a histogram, there was a couple outliers in both genres. "A HOPE FROM SAD STREET" by Anri is one of them. Here, in comparison to "Billie Jean" there were apparantly some issues when generating the tempo, as there are multiple yellow lines that flicker across the entire piece. However, as one can tell, it was not a complete failure, as it was able to generate not one, but two tempo octaves. It is not as stable as the previous piece, but the lines are clearly there. 
+
+This flickering could be attributed to the way this song is realized, in that there are many layers of sound, there are the bassline, but there are also a layer of trumpet as well as a choir and points where the song is stopped and picked up again. The bassline often is replaced by piano, and guitar solos - before returning to the "status quo". As far as I can tell, these instances are represented in the points in the tempogram. 
+
+
 ### Love Is a Contact Sport - Western Outlier in Distribution
 
 ```{r}
 knitr::include_graphics("contact-sport.png")
 ```
+
+***
+
+In comparison to Anri's song, "Love is a Contact Sport" by Whitney Houston does not have any issues at all, as clearly shown by the image. The song is also realized very clearly, with a clear tempo throughout the entire song. This song was also one of the outliers in the distribution chart, and was the western counterpart to Anri's. Similarly to the aforementioned song, this has two tempo-octaves. 
 
 ### Interesting find - Cat's Eye by Anri
 
@@ -94,6 +105,7 @@ knitr::include_graphics("catseye.png")
 
 ***
 
+Once again, here is a song by Anri, called "CAT'S EYE - (NEW TAKE)". I wanted to include this, due to the algorithm being able to generate the tempo very clearly in the beginning but when the song has reached around 130 seconds, there is a clear window where it was not able to generate the tempo. This is very clear if you listen to the song, as there is a moment around that time where the bass guitar has a solo. To me, it feels quicker than the song itself, which it has been able to show in some regard - however, this shift was clearly something the tempogram could not handle and was interesting to me. 
 
 
 Keys & Chords {.storyboard}
@@ -124,8 +136,6 @@ comparison |>
 As one can see from the graph here, the distribution of keys between each song in each of my corpus group are, overall, quite evenly distributed. However, one can tell that different groups often prefer different keys.   City Pop seems to prefer keys that are in C, D, F, and G for the most part, whereas U.S. Pop, while sharing a decent amount of songs in C as well, seem to also prefer D#, A, and B - unlike City Pop. It should be noted however, that there are a few songs more in the city pop group than the U.S. one, so it can skew the distributions. 
 
 
-Chordograms of Archetypes {.storyboard}
-=======================================
 
 ```{r, include=FALSE}
 circshift <- function(v, n) {
@@ -514,6 +524,9 @@ energy_hist <- comparison |>
 ggplotly(energy_hist)
 ```
 
+
+***
+
 Here are plots to give insight in the general tempos effect on energy in the groups City Pop and US Pop. In the first histogram plot, one can see that the distribution of energy is more even for pop than for city pop. It says that it counted 15 of the data in my playlist for City Pop to have an energy of a little over 0.6. 
  
 
@@ -603,12 +616,13 @@ Here is a plot of the effect of energy on danceability, with size of the plots a
 
 However, once can tell that U.S. Pop seem to have more of a positive linear correlation between energy and danceability - more than its eastern counterpart in any case.
 
-In both groups, there are two outliers that especially draw one's eye - which is the 
+In both groups, there are two outliers that especially draw one's eye - which is "Billie Jean" by Michael Jackson, and "横顔" by Taeko Onuki. 
+
 
 Conclusions/Summary *UPDATED*
 ==================================
 
-### Differences in City Pop vs US Pop 
+### Differences in City Pop vs US Pop *HAS NOT CHANGED* 
 
 So far we can see that the differences between US Pop and City Pop, based on the corpus I am using, is that energy definitely seem to have an effect on danceability in US pop, up until a certain level. However, there are many outliers that can skew this, which will be identified shortly. Furthermore, it does not seem that tempo has a definite pattern on either energy or danceability. 
 
@@ -621,8 +635,6 @@ But one outlier I want to talk about in particular is the one track, in the ener
 
 ### Homework Comments *UPDATED*
 
-Due to illnesses that have lasted for exactly a week, I have not been able to do much commentary on the new additions to my portfolio aside from just doing the actual homework. This is why you see that "Homework 9" is missing. I hope to add more when I have the time, as well as feeling a bit better.  
-
-Furthermore, I seem to have misread the assignment for today, so my analysis part of this homework is quite sparse while having a lot of graphs. My excuses for this. 
+I seem to have been able to provide analyses on the tempi-histogram as well as some outliers in different regards for this homework. Please give some feedback in regards to whether there are some analytic parts that are missing or might be good to add. Thank you!
 
 
