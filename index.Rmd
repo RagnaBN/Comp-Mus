@@ -153,7 +153,7 @@ In order to compute the model, I did capped the playlists at 31 songs in each gr
 By this, I can assume that the model is actually very good at classifying exactly what City Pop and what U.S Pop is. In the next header, I will see what kind of labels were the most important in the classification of these playlists, and whether my visualizations from the earlier weeks were any sort of effective. 
 
 
-### Features 
+### None of the features I used in visualizations were effective!
 
 
 ```{r}
