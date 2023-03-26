@@ -148,7 +148,7 @@ pop_knn |> get_pr()
 ```
 
   
-In order to compute the model, I did capped the playlists at 31 songs in each group. The accuracy of the model as of right now is by the use of the formula *(TP+TN)/total* according to [this](https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/) website is (24+22)/62 = 0.74, thus according to various sources [like this one](https://www.obviously.ai/post/machine-learning-model-performance) it is a relatively good accuracy while at the same time being within a realistic interval.
+In order to compute the model, I did capped the playlists at 31 songs in each group. The accuracy of the model as of right now is by the use of the formula *(TP+TN)/total* according to [this](https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/) website is (25+23)/62 = 0.77.., thus according to various sources [like this one](https://www.obviously.ai/post/machine-learning-model-performance) it is a relatively good accuracy while at the same time being within a realistic interval.
 
 By this, I can assume that the model is actually very good at classifying exactly what City Pop and what U.S Pop is. In the next header, I will see what kind of labels were the most important in the classification of these playlists, and whether my visualizations from the earlier weeks were any sort of effective. 
 
@@ -192,7 +192,17 @@ workflow() |>
 ```{r}
 pop_forest |> get_pr()
 ```
+  
+  
+```{r}
+pop_forest |> get_conf_mat()
+```
 
+I hope this is the right way of getting the confusion matrix out of the random forest model. If I use the same formula as in the previous slide, i will get an accuracy of 0.77..., just as the last one. 
+
+Regarding the feature selection, it is shown in the graph that the timbre vector c11, followed by the track level feature loudness, followed yet again by timbre vector c1. This is quite humorous as it was said in one of the lectures that this timbre vector is the rough equivalent to loudness. After those, primarily timbre features are the ones that are of the most importance. This is quite interesting, as I did mention at the very start of the course (without any knowledge of the terms of music) said that City Pop has a lot of layers to them. This was meant as "there is a lot going on" and it sounds different. 
+
+For the final portfolio, I will use these features in order to improve the existing visualizations I have (and I have the ability to remove some of them). Yay!
 
 
 Tempi {.storyboard}
