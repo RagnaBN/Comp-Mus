@@ -122,7 +122,7 @@ pop_cv <- pop_features |> vfold_cv(5)
 
 ```{r}
 knn_model <-
-  nearest_neighbor(neighbors = 2) |>
+  nearest_neighbor(neighbors = 1) |>
   set_mode("classification") |> 
   set_engine("kknn")
 pop_knn <- 
@@ -146,6 +146,12 @@ pop_knn |> get_conf_mat() |> autoplot(type = "heatmap")
 ```{r}
 pop_knn |> get_pr()
 ```
+
+  
+In order to compute the model, I did capped the playlists at 31 songs in each group. The accuracy of the model as of right now is by the use of the formula *(TP+TN)/total* according to [this](https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/) website is (24+22)/62 = 0.74, thus according to various sources [like this one](https://www.obviously.ai/post/machine-learning-model-performance) it is a relatively good accuracy while at the same time being within a realistic interval.
+
+By this, I can assume that the model is actually very good at classifying exactly what City Pop and what U.S Pop is. In the next header, I will see what kind of labels were the most important in the classification of these playlists, and whether my visualizations from the earlier weeks were any sort of effective. 
+
 
 ### Features 
 
