@@ -49,12 +49,55 @@ comparison <-
     )
 ```
 
+Introduction
+=======================================
+
+ -PLEASE DO NOT SHOW THIS PORTFOLIO IN CLASS-   
+    
+
+I am comparing two playlists consisting of three artists, one Japanese group and one US playlist. The Japanese group consist of the artists Taeko Onuki, Miki Matsubara and Anri. The US counterparts are the artists Michael Jackson, Whitney Houston and Madonna. I chose these corpora because I want to explore whether there are distinct differences between the genre of (city) pop as it was in Japan in the 80's vs the pop that was popular in the western world in the same decade. Japanese city pop was influenced by western music, so I expect there to be many similarities in use of sound, instruments and type of rhythms. However, an aspect I am particularly interested whether there is a difference is the prevalence of bass, and rhythms. It is also interesting to see whether there are differences in other aspects like "supplementary" sounds. However, I am unsure to what extent they are different.  
+    
+As I have chosen three artists to represent their own (variety) of genres, there might be nuances and representations I am missing. Taeko Onuki, Miki Matsubara and Anri were chosen due to their popularity on Spotify (the amount of general listeners as well as listens to their tracks). I also have to mention that there were personal selections. The same method was done in choosing the western counterparts. However, the genre(s) is (are) very broad, despite its popularity, and some varieties might have been overlooked. However, their popularity is a strength. 
+  
+
+Typical, and popular, tracks from the Japanese playlist are:
+
+  - "Mayonaka no Door / Stay With Me" - Miki Matsubara
+  - "4:00A.M." - Taeko Onuki
+  - "Remember Summer Days" - Anri  
+
+These songs are typical in the sense that there are prominent use of basslines and clear rhythms, and have many "layers" to them. 
+
+The western counterparts have typical tracks like: 
+
+  - "Thriller" - Michael Jackson
+  - "I Wanna Dance with Somebody (Who Loves Me)"
+  - "Material Girl" - Madonna  
+  
+These last three tracks especially has the typical and distinct features of pop of the 80's, namely the sharp drums and the heavily synthesized piano sounds and, what I think, an almost like a "dreamy" sound to them. 
+  
+Atypical songs can include: 
+
+  - "Billie Jean" by Michael Jackson
+  - "横顔" by Taeko Onuki
+
+This was an interesting find that proved to be quite interesting in the 
+
+***
+
+<iframe src="https://open.spotify.com/embed/playlist/4xnBi0S21rFHhhK0iGHpiS?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+
+</iframe>
+
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7LNMKu5boirXk30CB0mh7W?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+
 
 Classification *NEW* {.storyboard}
 ======================================
 
-
-### Heatmap 
+### Confusion matrix 
 ```{r}
 cPop <- get_playlist_audio_features("spotify", "7LNMKu5boirXk30CB0mh7W")
 uPop <- get_playlist_audio_features("spotify", "64h8THGlWTBkbE7sqhRV4V")
@@ -148,7 +191,7 @@ pop_knn |> get_pr()
 ```
 
   
-In order to compute the model, I did capped the playlists at 31 songs in each group. The accuracy of the model as of right now is by the use of the formula *(TP+TN)/total* according to [this](https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/) website is (25+23)/62 = 0.77.., thus according to various sources [like this one](https://www.obviously.ai/post/machine-learning-model-performance) it is a relatively good accuracy while at the same time being within a realistic interval.
+In order to compute the model, I did capped the playlists at 31 songs in each group. The accuracy of the model as of right now is by the use of the formula *(TP+TN)/total* according to [this](https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/) website is (24+24)/62 = 0.77.., thus according to various sources [like this one](https://www.obviously.ai/post/machine-learning-model-performance) it is a relatively good accuracy while at the same time being within a realistic interval.
 
 By this, I can assume that the model is actually very good at classifying exactly what City Pop and what U.S Pop is. In the next header, I will see what kind of labels were the most important in the classification of these playlists, and whether my visualizations from the earlier weeks were any sort of effective. 
 
@@ -602,49 +645,6 @@ thriller |>
   labs(x = "Time (s)", y = "")
 ```
 
-
-Introduction
-=======================================
-
- -PLEASE DO NOT SHOW THIS PORTFOLIO IN CLASS-   
-    
- 
-I am comparing two playlists consisting of three artists, one Japanese group and one US playlist. The Japanese group consist of the artists Taeko Onuki, Miki Matsubara and Anri. The US counterparts are the artists Michael Jackson, Whitney Houston and Madonna. I chose these corpora because I want to explore whether there are distinct differences between the genre of (city) pop as it was in Japan in the 80's vs the pop that was popular in the western world in the same decade. Japanese city pop was influenced by western music, so I expect there to be many similarities in use of sound, instruments and type of rhythms. However, an aspect I am particularly interested whether there is a difference is the prevalence of bass, and rhythms. It is also interesting to see whether there are differences in other aspects like "supplementary" sounds. However, I am unsure to what extent they are different.  
-    
-As I have chosen three artists to represent their own (variety) of genres, there might be nuances and representations I am missing. Taeko Onuki, Miki Matsubara and Anri were chosen due to their popularity on Spotify (the amount of general listeners as well as listens to their tracks). I also have to mention that there were personal selections. The same method was done in choosing the western counterparts. However, the genre(s) is (are) very broad, despite its popularity, and some varieties might have been overlooked. However, their popularity is a strength. 
-  
-
-Typical, and popular, tracks from the Japanese playlist are:
-
-  - "Mayonaka no Door / Stay With Me" - Miki Matsubara
-  - "4:00A.M." - Taeko Onuki
-  - "Remember Summer Days" - Anri  
-
-These songs are typical in the sense that there are prominent use of basslines and clear rhythms, and have many "layers" to them. 
-
-The western counterparts have typical tracks like: 
-
-  - "Thriller" - Michael Jackson
-  - "I Wanna Dance with Somebody (Who Loves Me)"
-  - "Material Girl" - Madonna  
-  
-These last three tracks especially has the typical and distinct features of pop of the 80's, namely the sharp drums and the heavily synthesized piano sounds and, what I think, an almost like a "dreamy" sound to them. 
-  
-Atypical songs can include: 
-
-  - "Billie Jean" by Michael Jackson
-  - "横顔" by Taeko Onuki
-
-This was an interesting find that proved to be quite interesting in the 
-
-***
-
-<iframe src="https://open.spotify.com/embed/playlist/4xnBi0S21rFHhhK0iGHpiS?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-
-</iframe>
-
-
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7LNMKu5boirXk30CB0mh7W?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
 Chromagram of the outlier *UPDATED*
 ====================================
