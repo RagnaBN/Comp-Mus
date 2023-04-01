@@ -3,7 +3,7 @@ title: "City Pop and Pop, the same despite being a world apart from one another?
 author: Ragna Nilsen
 output: 
   flexdashboard::flex_dashboard:
-    orientation: rows
+    orientation: columns
     vertical_layout: fill
 ---
 
@@ -52,6 +52,10 @@ comparison <-
 Introduction
 =======================================
 
+Column {data-width=600}
+--------------------------------------
+
+
 City pop vs U.S. Pop   
     
 In this portfolio, I will explore the differences and features of the two genres City Pop (CP) and U.S.Pop (UP), originating from Japan and the U.S. respectively. CP is a type of genre from Japan that appeared the late 70's and reached its popularity peak in the 80's. I will be comparing two playlists consisting of three artists, one Japanese group and one US playlist. The Japanese group consist of the artists Taeko Onuki, Miki Matsubara and Anri. The US counterparts are the artists Michael Jackson, Whitney Houston and Madonna. I chose these corpora because I want to explore whether there are distinct differences between the genre of (city) pop as it was in Japan in the 80's vs the pop that was popular in the western world in the same decade. Japanese CP was influenced by western music, so I expect there to be many similarities in use of sound, instruments and type of rhythms. However, an aspect I am particularly interested whether there is a difference is the prevalence of bass, and tempo. It is also interesting to see whether there are differences in other aspects like timbre. However, I am unsure to what extent they are different, which will be explored here.  
@@ -84,6 +88,19 @@ Atypical songs from both playlists can include:
   
   
 In order to explore eventual differences and features of this corpus, I will first start with a classification model with a random forest. Then I will explore track level features between the two genres, focusing on what the classification model labels my corpus. After I will go more into the musical moments such as timbre and chroma, focusing on self-similarity matrices and chromagrams and chordograms. Finally, I will go into depth about what this portfolio has explored and conclude what can be derived from this. 
+
+Column {data-width=200}
+--------------------------------------
+
+### Playlist CP 
+<iframe src="https://open.spotify.com/embed/playlist/7LNMKu5boirXk30CB0mh7W?utm_source=generator" width="100%" height="100%" frameBorder="0" allowtransparency="true" allow="encrypted-media" data-external="1"></iframe>
+
+Column {data-width=200}
+--------------------------------------
+
+### Playlist UP 
+<iframe src="https://open.spotify.com/embed/playlist/64h8THGlWTBkbE7sqhRV4V?utm_source=generator" width="100%" height="100%" frameBorder="0" allowtransparency="true" allow="encrypted-media" data-external="1"></iframe>
+
 
 Classification {.storyboard}
 ======================================
