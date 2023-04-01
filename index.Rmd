@@ -333,6 +333,8 @@ Chromagrams of Typicals
 
 Column {data-width=650}
 ------------------------------------
+
+### Chromagrams of 4:00A.M. and I Wanna Dance..
 ```{r}
 fourSomebody <- 
     bind_rows(
@@ -361,6 +363,8 @@ fourSomebody |>
 Column {data-width=300}
 -------------------------------------
 
+### Analysis
+
 Both "4:00A.M." and "I Wanna Dance with Somebody (Who Loves Me)" are both mentioned as popular and typical songs in my corpus. As depicted in the chromagrams to the left. As one can see. The same chromas are used in a very similar manner with an exception in some areas, like F#/Gb and when they use the C chroma most. For Taeko Onuki, this is in the beginning of the song, whereas for Whitney's, it is mostly in the end of the song. The F chroma is also used more. Overall, it seems like both of the songs seem very homogeneous in terms of pitch classes. There is not a lot of variation neither inter-, nor intra-song. Which is quite representative as the segments in the songs are very stereotypical with verses, choruses and repetition of these segments. Thus, in this instance the chromagrams do not particularly gain any insights in the differences in features. However, it does tell us that they are (can be) quite similar.  
 
 On the other hand, it should be mentioned that for Taeko's song there is a good minute and a half dedicated to a rather simplistic guitar solo. However, based on this chromagram, this is not necessarily the case as they seem very homogenous. So perhaps, chromagrams does not necessarily work very well for these items in my corpus. 
@@ -372,6 +376,8 @@ Self-Similarity Matrices
 
 Column {data-width=600}
 --------------------------------------
+
+### Self-Similarity Matrices of Material Girl and Mayonaka no Door/Stay With Me
 
 ```{r material girl_analysis}
 mat_girl <-
@@ -446,6 +452,8 @@ bind_rows(
 
 Column {data-width=400}
 --------------------------------------
+
+### Analysis 
 
 Here, two sets of self-similarity matrices in both chroma and timbre are compared between playlists in my corpus. These are the songs "Mayonaka no door / Stay With Me" by Miki Matsubara and "Material Girl" by Madonna. These were chosen as they are quite typical songs in my corpus. As ne can see, there are distinct differences between the two songs in both timbre and chroma.  
 
