@@ -58,9 +58,9 @@ Column {data-width=600}
 
 City pop vs U.S. Pop   
     
-In this portfolio, I will explore the differences and features of the two genres City Pop (CP) and U.S.Pop (UP), originating from Japan and the U.S. respectively. CP is a type of genre from Japan that appeared the late 70's and reached its popularity peak in the 80's. I will be comparing two playlists consisting of three artists, one Japanese group and one US playlist. The Japanese group consist of the artists Taeko Onuki, Miki Matsubara and Anri. The US counterparts are the artists Michael Jackson, Whitney Houston and Madonna. I chose these corpora because I want to explore whether there are distinct differences between the genre of (city) pop as it was in Japan in the 80's vs the pop that was popular in the western world in the same decade. Japanese CP was influenced by western music, so I expect there to be many similarities in use of sound, instruments and type of rhythms. However, an aspect I am particularly interested whether there is a difference is the prevalence of bass, and tempo. It is also interesting to see whether there are differences in other aspects like timbre. However, I am unsure to what extent they are different, which will be explored here.  
+In this portfolio, I will explore the differences and features of the two genres City Pop (CP) and U.S.Pop (UP), originating from Japan and the U.S. respectively. Genre here is a very loose term, as there are [sources](https://www.japantimes.co.jp/culture/2015/07/05/music/city-pop-revival-literally-trend-name/) that indicate that CP is a vibe explored through many different types of genres. [Others](https://www.rollingstone.com/music/music-features/japanese-city-pop-returns-light-in-the-attic-compilation-pacific-breeze-822663/) say it is pop music for city people. However, for simplicity's sake, I will use the term genre. CP is a type of genre from Japan that appeared the late 70's and reached its popularity peak in the 80's. I will be comparing two playlists consisting of three artists, one Japanese group and one US playlist. The Japanese group consist of the artists Taeko Onuki, Miki Matsubara and Anri. The US counterparts are the artists Michael Jackson, Whitney Houston and Madonna. I chose these corpora because I want to explore whether there are distinct differences between the genre of (city) pop as it was in Japan in the 80's vs the pop that was popular in the western world in the same decade. Japanese CP was influenced by western music, so I expect there to be many similarities in use of sound, instruments and type of rhythms. However, an aspect I am particularly interested whether there is a difference is the prevalence of bass, and tempo. It is also interesting to see whether there are differences in other aspects like timbre. However, I am unsure to what extent they are different, which will be explored here.  
 
-The reason I chose this topic is because of my personal tastes. Ever since I was a child, pop has been a significant part of my life and upbringing as this was perhaps the major genre both my parents listened to. Due to rising popularity on the internet, CP has gained a lot of traction and even has spawned new types of sub-genres, e.g., future funk, from what I think is a similarity from Western pop as well as many of the songs ability to sound modern in today's standards.  
+The reason I chose this topic is because of my personal tastes. Ever since I was a child, pop has been a significant part of my life and upbringing as this was perhaps the major genre both my parents listened to. Due to rising popularity on the internet, CP has gained a lot of traction and even has spawned new types of sub-genres, e.g., future funk, from what I think is a similarity from Western pop as well as many of the songs ability to sound modern in today's standards. This previously mention of pop for city people is what attracted me, and I have been listening to it personally since I discovered it 3-4 years ago. 
     
 As I have chosen three artists to represent their own (variety) of genres, there might be nuances and representations I am missing. Taeko Onuki, Miki Matsubara and Anri were chosen due to their popularity on Spotify (the amount of general listeners as well as listens to their tracks). I also have to mention that there were personal selections. Nevertheless, they were centered around three albums from each respective artist. The same method was done in choosing the western counterparts. However, the genre(s) is (are) very broad, despite its popularity, and some varieties might have been overlooked. However, their popularity is a strength as many causal listeners will have knowledge of these songs.   
   
@@ -251,9 +251,9 @@ pop_forest |> get_conf_mat()
 
 I hope this is the right way of getting the confusion matrix out of the random forest model. If I use the same formula as in the previous slide, i will get an accuracy of 0.77..., just as the last one. 
 
-Regarding the feature selection, it is shown in the graph that the timbre coefficient c11, followed by the track level feature loudness, followed yet again by timbre coefficient c1 are the most important labels that helps the model classify the two genres. The importance of loudness and the timbre coefficient c1 is quite humorous as it was said in one of the lectures that this timbre vector is the rough equivalent to loudness. After those, primarily timbre features are the ones that are of the most importance. This is quite interesting, as I did mention at the very start of the course (without any knowledge of the terms of music) said that City Pop has a lot of layers to them. This was meant as "there is a lot going on" and it sounds different. This is probably why  
+Regarding the feature selection, it is shown in the graph that the timbre coefficient c11, followed by the track level feature loudness, followed yet again by timbre coefficient c1 are the most important labels that helps the model classify the two genres. The importance of loudness and the timbre coefficient c1 is quite humorous as it was said in one of the lectures that this timbre vector is the rough equivalent to loudness. After those, primarily timbre features are the ones that are of the most importance. This is quite interesting, as I did mention at the very start of the course (without any knowledge of the terms of music) said that City Pop has a lot of layers to them. This was meant as "there is a lot going on" and it sounds different.  
 
-For the final portfolio, I will use these features in order to improve the existing visualizations I have (and I have the ability to remove some of them). Yay!
+This is probably why, according to 
 
 
 Graphs {.storyboard}
@@ -328,18 +328,19 @@ However, once can tell that U.S. Pop seem to have more of a positive linear corr
 In both groups, there are two outliers that especially draw one's eye - which is "Billie Jean" by Michael Jackson, and "横顔" by Taeko Onuki. They both have, in comparison to other songs, very low energy while at the same time having high danceability. 
 
 
-Chromagrams of Outliers 
+Chromagrams of Typicals
 ====================================
 
-### Billie Jean - Michael Jackson {data-width=700}
+Column {data-width=650}
+------------------------------------
 ```{r}
-bjean <- 
-    get_tidy_audio_analysis("7J1uxwnxfQLu4APicE5Rnj") |>
-    select(segments) |>
-    unnest(segments) |>
-    select(start, duration, pitches)
+fourSomebody <- 
+    bind_rows(
+      mutate(get_tidy_audio_analysis("2tUBqZG2AbRi7Q0BIrVrEj") |> select(segments) |> unnest(segments) |> select(start, duration, pitches), song = "I Wanna Dance.. - Whitney"), 
+      mutate(get_tidy_audio_analysis("0zoGVO4bQXG8U6ChKwNgeg") |> select(segments) |> unnest(segments) |> select(start, duration, pitches), song = "4:00A.M. - Taeko Onuki")
+    )
 
-bjean |>
+fourSomebody |>
   mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
   compmus_gather_chroma() |> 
   ggplot(
@@ -352,17 +353,25 @@ bjean |>
   ) +
   geom_tile() +
   labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  facet_wrap(~song) +
   theme_minimal() +
   scale_fill_viridis_c()
 ```
 
-### Commentary {data-width=300}
+Column {data-width=300}
+-------------------------------------
 
-"Billie Jean" was listed as an outlier for the Pop group in the graph of whether energy has an effect on danceability, in the sense that Spotify notices this as a non energetic song, while having an extremely high danceability. As one can see in this chromagram, the song "Billie Jean" has several areas where the magnitude is over 0.75. A couple of patterns that arise are the use of the D and C#/Db at before 100 and 200 seconds. They form an almost pyramid shape. However, despite this, one can see that it is a very energetic song, by the use of the chromas - despite being a very slow and unenergetic song. 
+Both "4:00A.M." and "I Wanna Dance with Somebody (Who Loves Me)" are both mentioned as popular and typical songs in my corpus. As depicted in the chromagrams to the left. As one can see. The same chromas are used in a very similar manner with an exception in some areas, like F#/Gb and when they use the C chroma most. For Taeko Onuki, this is in the beginning of the song, whereas for Whitney's, it is mostly in the end of the song. The F chroma is also used more. Overall, it seems like both of the songs seem very homogeneous in terms of pitch classes. There is not a lot of variation neither inter-, nor intra-song. Which is quite representative as the segments in the songs are very stereotypical with verses, choruses and repetition of these segments. Thus, in this instance the chromagrams do not particularly gain any insights in the differences in features. However, it does tell us that they are (can be) quite similar.  
+
+On the other hand, it should be mentioned that for Taeko's song there is a good minute and a half dedicated to a rather simplistic guitar solo. However, based on this chromagram, this is not necessarily the case as they seem very homogenous. So perhaps, chromagrams does not necessarily work very well for these items in my corpus. 
+
 
 
 Self-Similarity Matrices
 ======================================
+
+Column {data-width=600}
+--------------------------------------
 
 ```{r material girl_analysis}
 mat_girl <-
@@ -435,6 +444,16 @@ bind_rows(
   labs(title = "Self-Similarity Matrices", x = "", y = "")
 ```
 
+Column {data-width=400}
+--------------------------------------
+
+Here, two sets of self-similarity matrices in both chroma and timbre are compared between playlists in my corpus. These are the songs "Mayonaka no door / Stay With Me" by Miki Matsubara and "Material Girl" by Madonna. These were chosen as they are quite typical songs in my corpus. As ne can see, there are distinct differences between the two songs in both timbre and chroma.  
+
+From the borderline black diagonal patterns in the chroma SSM one can see that the CP song definitely has more repetitive patterns in pitch classes than the UP one. There are novel items introduced, as one can see by the bright colors creating a checkerboard pattern, but this is more present in "Material Girl". The latter, according to the chroma SSM, shows less repetitions in pitch classes and more novel stuff. This is especially apparent at around 200 seconds in the song, where a brightly colored band shows up, indicating it is entirely novel. This indicates that CP is fond of repetitive pitch classes, perhaps even more than UP.  
+
+However, if one looks at the timbre based SMMs, the story is entirely different. Here, there are many instances in the CP song where timbre has novelty at many different parts of the song as well. This is highly contrasted in the UP song, as one can see there are a lot of repetition in timbre and way less than CP. This supports the notion of the classifier that timbre might be the thing that really distinguishes CP from UP. 
+
+ 
 
 Tempi {.storyboard}
 ======================================
