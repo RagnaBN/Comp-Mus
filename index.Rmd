@@ -462,7 +462,7 @@ Tempi {.storyboard}
 ### Billie Jean - our atypical song 
 
 ```{r}
-knitr::include_graphics("billiejean.png")
+knitr::include_graphics("billiejeanNOTcyclic.png")
 ```
 
 ***  
@@ -478,7 +478,7 @@ knitr::include_graphics("sad-street.png")
 
 ***  
 
-Providing the distribution of tempi in the form of a histogram, there was a couple outliers in both genres. "A HOPE FROM SAD STREET" by Anri is one of them. Here, in comparison to "Billie Jean" there were apparantly some issues when generating the tempo, as there are multiple yellow lines that flicker across the entire piece. However, as one can tell, it was not a complete failure, as it was able to generate not one, but two tempo octaves. It is not as stable as the previous piece, but the lines are clearly there. 
+"A HOPE FROM SAD STREET" by Anri is one of the outliers in terms of tempo. It is the only song that  Here, in comparison to "Billie Jean" there were apparantly some issues when generating the tempo, as there are multiple yellow lines that flicker across the entire piece. However, as one can tell, it was not a complete failure, as it was able to generate not one, but two tempo octaves. It is not as stable as the previous piece, but the lines are clearly there. 
 
 This flickering could be attributed to the way this song is realized, in that there are many layers of sound, there are the bassline, but there are also a layer of trumpet as well as a choir and points where the song is stopped and picked up again. The bassline often is replaced by piano, and guitar solos - before returning to the "status quo". As far as I can tell, these instances are represented in the points in the tempogram. 
 
@@ -575,74 +575,6 @@ key_templates <-
   )
 ```
 
-
-### Mayonaka no Door/Stay With Me     City Pop
-```{r}
-Stay <-
-  get_tidy_audio_analysis("2BHj31ufdEqVK5CkYDp9mA") |>
-  compmus_align(sections, segments) |>
-  select(sections) |>
-  unnest(sections) |>
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "mean", norm = "manhattan"
-      )
-  )
-```
-
-```{r}
-Stay |> 
-  compmus_match_pitch_template(
-    chord_templates,         # Change to chord_templates if desired
-    method = "euclidean",  # Try different distance metrics
-    norm = "manhattan"     # Try different norms
-  ) |>
-  ggplot(
-    aes(x = start + duration / 2, width = duration, y = name, fill = d)
-  ) +
-  geom_tile() +
-  scale_fill_viridis_c(guide = "none") +
-  theme_minimal() +
-  labs(x = "Time (s)", y = "")
-```
-
-
-### 4:00A.M.     City Pop
-
-```{r}
-four_am <-
-  get_tidy_audio_analysis("0zoGVO4bQXG8U6ChKwNgeg") |>
-  compmus_align(sections, segments) |>
-  select(sections) |>
-  unnest(sections) |>
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "mean", norm = "manhattan"
-      )
-  )
-```
-
-```{r}
-four_am |> 
-  compmus_match_pitch_template(
-    chord_templates,         # Change to chord_templates if desired
-    method = "euclidean",  # Try different distance metrics
-    norm = "manhattan"     # Try different norms
-  ) |>
-  ggplot(
-    aes(x = start + duration / 2, width = duration, y = name, fill = d)
-  ) +
-  geom_tile() +
-  scale_fill_viridis_c(guide = "none") +
-  theme_minimal() +
-  labs(x = "Time (s)", y = "")
-```
-
-
 ### Remember Summer Days     City Pop
 
 ```{r}
@@ -664,75 +596,7 @@ remember <-
 remember |> 
   compmus_match_pitch_template(
     chord_templates,         # Change to chord_templates if desired
-    method = "euclidean",  # Try different distance metrics
-    norm = "manhattan"     # Try different norms
-  ) |>
-  ggplot(
-    aes(x = start + duration / 2, width = duration, y = name, fill = d)
-  ) +
-  geom_tile() +
-  scale_fill_viridis_c(guide = "none") +
-  theme_minimal() +
-  labs(x = "Time (s)", y = "")
-```
-
-
-### I Wanna Dance With Somebody (Who Loves Me)     Pop
-
-```{r}
-wanna_dance <-
-  get_tidy_audio_analysis("2tUBqZG2AbRi7Q0BIrVrEj") |>
-  compmus_align(sections, segments) |>
-  select(sections) |>
-  unnest(sections) |>
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "mean", norm = "manhattan"
-      )
-  )
-```
-
-```{r}
-wanna_dance |> 
-  compmus_match_pitch_template(
-    key_templates,         # Change to chord_templates if desired
-    method = "euclidean",  # Try different distance metrics
-    norm = "manhattan"     # Try different norms
-  ) |>
-  ggplot(
-    aes(x = start + duration / 2, width = duration, y = name, fill = d)
-  ) +
-  geom_tile() +
-  scale_fill_viridis_c(guide = "none") +
-  theme_minimal() +
-  labs(x = "Time (s)", y = "")
-```
-
-
-### Material Girl     Pop
-
-```{r}
-material_girl <-
-  get_tidy_audio_analysis("7bkyXSi4GtVfD7itZRUR3e") |>
-  compmus_align(sections, segments) |>
-  select(sections) |>
-  unnest(sections) |>
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "mean", norm = "manhattan"
-      )
-  )
-```
-
-```{r}
-material_girl |> 
-  compmus_match_pitch_template(
-    key_templates,         # Change to chord_templates if desired
-    method = "euclidean",  # Try different distance metrics
+    method = "manhattan",  # Try different distance metrics
     norm = "manhattan"     # Try different norms
   ) |>
   ggplot(
@@ -765,9 +629,9 @@ thriller <-
 ```{r}
 thriller |> 
   compmus_match_pitch_template(
-    key_templates,         # Change to chord_templates if desired
-    method = "euclidean",  # Try different distance metrics
-    norm = "manhattan"     # Try different norms
+    chord_templates,         # Change to chord_templates if desired
+    method = "manhattan",  # Try different distance metrics
+    norm = "euclidean"     # Try different norms
   ) |>
   ggplot(
     aes(x = start + duration / 2, width = duration, y = name, fill = d)
