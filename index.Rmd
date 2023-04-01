@@ -54,9 +54,9 @@ Introduction
 
 City pop vs U.S. Pop   
     
-In this portfolio, I will explore the differences and features of the two genres City Pop and 80's Pop, originating from Japan and the U.S. respectively. City Pop is a type of genre from Japan that appeared the late 70's and reached its popularity peak in the 80's. I will be comparing two playlists consisting of three artists, one Japanese group and one US playlist. The Japanese group consist of the artists Taeko Onuki, Miki Matsubara and Anri. The US counterparts are the artists Michael Jackson, Whitney Houston and Madonna. I chose these corpora because I want to explore whether there are distinct differences between the genre of (city) pop as it was in Japan in the 80's vs the pop that was popular in the western world in the same decade. Japanese city pop was influenced by western music, so I expect there to be many similarities in use of sound, instruments and type of rhythms. However, an aspect I am particularly interested whether there is a difference is the prevalence of bass, and tempo. It is also interesting to see whether there are differences in other aspects like timbre. However, I am unsure to what extent they are different, which will be explored here.  
+In this portfolio, I will explore the differences and features of the two genres City Pop (CP) and U.S.Pop (UP), originating from Japan and the U.S. respectively. CP is a type of genre from Japan that appeared the late 70's and reached its popularity peak in the 80's. I will be comparing two playlists consisting of three artists, one Japanese group and one US playlist. The Japanese group consist of the artists Taeko Onuki, Miki Matsubara and Anri. The US counterparts are the artists Michael Jackson, Whitney Houston and Madonna. I chose these corpora because I want to explore whether there are distinct differences between the genre of (city) pop as it was in Japan in the 80's vs the pop that was popular in the western world in the same decade. Japanese CP was influenced by western music, so I expect there to be many similarities in use of sound, instruments and type of rhythms. However, an aspect I am particularly interested whether there is a difference is the prevalence of bass, and tempo. It is also interesting to see whether there are differences in other aspects like timbre. However, I am unsure to what extent they are different, which will be explored here.  
 
-The reason I chose this topic is because of my personal tastes. Ever since I was a child, pop has been a significant part of my life and upbringing as this was perhaps the major genre both my parents listened to. Due to rising popularity on the internet, City Pop has gained a lot of traction and even has spawned new types of sub-genres, e.g., future funk, from what I think is a similarity from Western pop as well as many of the songs ability to sound modern in today's standards.  
+The reason I chose this topic is because of my personal tastes. Ever since I was a child, pop has been a significant part of my life and upbringing as this was perhaps the major genre both my parents listened to. Due to rising popularity on the internet, CP has gained a lot of traction and even has spawned new types of sub-genres, e.g., future funk, from what I think is a similarity from Western pop as well as many of the songs ability to sound modern in today's standards.  
     
 As I have chosen three artists to represent their own (variety) of genres, there might be nuances and representations I am missing. Taeko Onuki, Miki Matsubara and Anri were chosen due to their popularity on Spotify (the amount of general listeners as well as listens to their tracks). I also have to mention that there were personal selections. Nevertheless, they were centered around three albums from each respective artist. The same method was done in choosing the western counterparts. However, the genre(s) is (are) very broad, despite its popularity, and some varieties might have been overlooked. However, their popularity is a strength as many causal listeners will have knowledge of these songs.   
   
@@ -79,16 +79,210 @@ These last three tracks especially has the typical and distinct features of pop 
   
 Atypical songs from both playlists can include: 
 
-  - "Billie Jean" by Michael Jackson
-  - "横顔" by Taeko Onuki
+  - [Billie Jean](https://open.spotify.com/track/7J1uxwnxfQLu4APicE5Rnj?si=2204b32a10f545b5) by Michael Jackson
+  - [横顔](https://open.spotify.com/track/5IgmcXoZGOhs32mD1BLFdp?si=fc1ffeeb007a46ad) by Taeko Onuki  
   
+  
+In order to explore eventual differences and features of this corpus, I will first start with a classification model with a random forest. Then I will explore track level features between the two genres, focusing on what the classification model labels my corpus. After I will go more into the musical moments such as timbre and chroma, focusing on self-similarity matrices and chromagrams and chordograms. Finally, I will go into depth about what this portfolio has explored and conclude what can be derived from this. 
+
+Classification {.storyboard}
+======================================
+
+### The classifier is better than expected at categorizing each genre
+```{r}
+cPop <- get_playlist_audio_features("spotify", "7LNMKu5boirXk30CB0mh7W")
+uPop <- get_playlist_audio_features("spotify", "64h8THGlWTBkbE7sqhRV4V")
+Pop <-
+  bind_rows(
+    cPop |> mutate(playlist = "City Pop") |> slice_head(n = 31),
+    uPop |> mutate(playlist = "U.S. Pop") |> slice_head(n = 31),
+  ) |> 
+  add_audio_analysis()
+```
+
+```{r}
+pop_features <-
+  Pop |>  
+  mutate(
+    playlist = factor(playlist),
+    segments = map2(segments, key, compmus_c_transpose),
+    pitches =
+      map(
+        segments,
+        compmus_summarise, pitches,
+        method = "mean", norm = "manhattan"
+      ),
+    timbre =
+      map(
+        segments,
+        compmus_summarise, timbre,
+        method = "mean",
+      )
+  ) |>
+  mutate(pitches = map(pitches, compmus_normalise, "clr")) |>
+  mutate_at(vars(pitches, timbre), map, bind_rows) |>
+  unnest(cols = c(pitches, timbre))
+```
+
+```{r}
+pop_recipe <-
+  recipe(
+    playlist ~
+      danceability +
+      energy +
+      loudness +
+      speechiness +
+      acousticness +
+      instrumentalness +
+      liveness +
+      valence +
+      tempo +
+      duration +
+      C + `C#|Db` + D + `D#|Eb` +
+      E + `F` + `F#|Gb` + G +
+      `G#|Ab` + A + `A#|Bb` + B +
+      c01 + c02 + c03 + c04 + c05 + c06 +
+      c07 + c08 + c09 + c10 + c11 + c12,
+    data = pop_features           # Use the same name as the previous block.
+  ) |>
+  step_center(all_predictors()) |>
+  step_scale(all_predictors())      # Converts to z-scores.
+  # step_range(all_predictors())    # Sets range to [0, 1].
+```
+
+```{r}
+pop_cv <- pop_features |> vfold_cv(5)
+```
+
+```{r}
+knn_model <-
+  nearest_neighbor(neighbors = 1) |>
+  set_mode("classification") |> 
+  set_engine("kknn")
+pop_knn <- 
+  workflow() |> 
+  add_recipe(pop_recipe) |> 
+  add_model(knn_model) |> 
+  fit_resamples(pop_cv, control = control_resamples(save_pred = TRUE))
+```
+
+```{r, include=FALSE}
+pop_knn |> get_conf_mat()
+```
+
+
+```{r}
+pop_knn |> get_conf_mat() |> autoplot(type = "heatmap")
+```
+
+*** 
+
+```{r}
+pop_knn |> get_pr()
+```
+
+  
+In order to compute the model, I did capped the playlists at 31 songs in each group. The accuracy of the model as of right now is by the use of the formula *(TP+TN)/total* according to [this](https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/) website is (24+24)/62 = 0.77.., thus according to various sources [like this one](https://www.obviously.ai/post/machine-learning-model-performance) it is a relatively good accuracy while at the same time being within a realistic interval.
+
+By this, I can assume that the model is decent at classifying exactly what City Pop and what U.S Pop is. In the next header, I will see what kind of labels were the most important in the classification of these playlists, and determine what labels where most important in this classification.
+
+
+### From these labels the track level feature *loudness*, and *timbre coefficients* are the most important labels when classifying CP and UP.
+
+
+```{r}
+forest_model <-
+  rand_forest() |>
+  set_mode("classification") |> 
+  set_engine("ranger", importance = "impurity")
+pop_forest <- 
+  workflow() |> 
+  add_recipe(pop_recipe) |> 
+  add_model(forest_model) |> 
+  fit_resamples(
+    pop_cv, 
+    control = control_resamples(save_pred = TRUE)
+  )
+```
+
+```{r}
+workflow() |> 
+  add_recipe(pop_recipe) |> 
+  add_model(forest_model) |> 
+  fit(pop_features) |> 
+  pluck("fit", "fit", "fit") |>
+  ranger::importance() |> 
+  enframe() |> 
+  mutate(name = fct_reorder(name, value)) |> 
+  ggplot(aes(name, value)) + 
+  geom_col() + 
+  coord_flip() +
+  theme_minimal() +
+  labs(x = NULL, y = "Importance")
+```
+
+***
+
+```{r}
+pop_forest |> get_pr()
+```
+  
+  
+```{r}
+pop_forest |> get_conf_mat()
+```
+
+I hope this is the right way of getting the confusion matrix out of the random forest model. If I use the same formula as in the previous slide, i will get an accuracy of 0.77..., just as the last one. 
+
+Regarding the feature selection, it is shown in the graph that the timbre coefficient c11, followed by the track level feature loudness, followed yet again by timbre coefficient c1 are the most important labels that helps the model classify the two genres. The importance of loudness and the timbre coefficient c1 is quite humorous as it was said in one of the lectures that this timbre vector is the rough equivalent to loudness. After those, primarily timbre features are the ones that are of the most importance. This is quite interesting, as I did mention at the very start of the course (without any knowledge of the terms of music) said that City Pop has a lot of layers to them. This was meant as "there is a lot going on" and it sounds different. This is probably why  
+
+For the final portfolio, I will use these features in order to improve the existing visualizations I have (and I have the ability to remove some of them). Yay!
+
 
 Graphs {.storyboard}
 ==========================================
 
-### Energy on danceability
+### CP is louder than UP
 
-```{r}
+
+```{r tempo and loudness}
+comparison |>
+  ggplot(
+    aes(
+      x = tempo, 
+      y = loudness, 
+      color = category,
+      size = energy
+      )
+    ) + 
+    geom_point(
+       alpha = 0.2
+    ) + 
+    geom_jitter() + 
+    facet_wrap(
+      ~category
+      ) +
+    labs(
+      title = "The effect of tempo on loudness between groups", 
+      x = "Tempo (bpm)", 
+      y = "Loudness",
+      size = "Energy", 
+      color = "Genre"
+    )
+```
+
+*** 
+
+Here one can see the temporal and power features between the two genres. As one can see, there is a definite preference for a higher volume in the City Pop group than the other gorup. This graph was made as a direct consequence of the labeling done in the previous section. As one can see, there is a distinct difference in loudness between the two genres, as it seems that while both of them *tend* to stay around the same beats per minute, i.e., 120-125. Which coincidentally corresponds well to the study by Moelants (2002), which says that humans seem to prefer this tempo.   
+
+However, one can tell that there are many items that do not correspond to this as there are plots between the 90-120 area in CP and from 90-150 in UP. One could perhaps say that UP have more items directly corresponding to 120 bpm. 
+
+Nevertheless, UP, in terms of loudness, stop at just above -9 dB. What is very clear is that CP does not stop at this as multiple items is above -6 dB. This, if I am interpreting it correctly, does mean that CP is more loud than UP. 
+
+
+### Other track level features single out some outliers. 
+
+```{r energyxdance, warning=FALSE}
 comparison |>
   ggplot(
     aes(
@@ -114,44 +308,10 @@ Here is a plot of the effect of energy on danceability, with size of the plots a
 
 However, once can tell that U.S. Pop seem to have more of a positive linear correlation between energy and danceability - more than its eastern counterpart in any case.
 
-In both groups, there are two outliers that especially draw one's eye - which is "Billie Jean" by Michael Jackson, and "横顔" by Taeko Onuki. 
+In both groups, there are two outliers that especially draw one's eye - which is "Billie Jean" by Michael Jackson, and "横顔" by Taeko Onuki. They both have, in comparison to other songs, very low energy while at the same time having high danceability. 
 
 
-### Tempo and Loudness *UPDATED*
-
-
-```{r}
-comparison |>
-  ggplot(
-    aes(
-      x = tempo, 
-      y = loudness, 
-      color = category,
-      size = energy
-      )
-    ) + 
-    geom_point(
-       alpha = 0.2
-    ) + 
-    geom_jitter() + 
-    facet_wrap(
-      ~category
-      ) +
-    labs(
-      title = "The effect of tempo on loudness between groups", 
-      x = "Tempo", 
-      y = "Loudness",
-      size = "Energy", 
-      color = "Genre"
-    )
-```
-
-*** 
-
-Here one can see the temporal and power features between the two genres. As one can see, there is a definite preference for a higher volume in the City Pop group than the other gorup. MORE ANALYSIS NEEDED 
-
-
-Chromagram of Billie Jean
+Chromagrams of Outliers 
 ====================================
 
 ### Billie Jean - Michael Jackson {data-width=700}
@@ -261,34 +421,6 @@ bind_rows(
 
 Tempi {.storyboard}
 ======================================
-
-### Histogram of tempi 
-
-```{r}
-comparison |> 
- ggplot(
-    aes(
-      x = tempo, fill = category
-      )
-    ) + 
-  geom_histogram(
-    binwidth = 5, 
-    position = position_dodge(0.3)
-    ) + 
-  facet_wrap(~category) + 
-  labs(
-    y = "Amount of Songs", 
-    x = "Tempo", 
-    title = "Tempo distribution between City Pop and Pop", 
-    citation = "Data: Personal Playlists", 
-    fill = "Genre")
-```
-
-***  
-
-Here is the distribution of tempi within my corpus, divided between the Japanese group and the U.S. group. As the graphs show, there are distinct differences in which tempo is preferred in the western world - which one can see is around 120 bpm. Interestingly, this corresponds well to the research that has been conducted where 120-125 bpm seems to be a natural tempo for humans and a link between the natural tempo and bpm in music has been found. However, according to the corpus I am using, this is not the case for the eastern world. The distribution here is more even, with more songs being in the range of 100-135 bpm. However, there are more songs that lie around the 105 bpm mark. 
-
-Aside from the obvious archetypes in this distribution, there are two outliers from each group. These are the songs "A HOPE FROM SAD STREET" by Anri, and "Love Is a Contact Sport" by Whitney Houston. They each have tempi that lie around 180 and 175 bpm respectively. 
 
 
 ### Billie Jean - our atypical song 
@@ -658,158 +790,6 @@ thriller |>
 
 
 
-Classification *NEW* {.storyboard}
-======================================
-
-### Confusion matrix 
-```{r}
-cPop <- get_playlist_audio_features("spotify", "7LNMKu5boirXk30CB0mh7W")
-uPop <- get_playlist_audio_features("spotify", "64h8THGlWTBkbE7sqhRV4V")
-Pop <-
-  bind_rows(
-    cPop |> mutate(playlist = "City Pop") |> slice_head(n = 31),
-    uPop |> mutate(playlist = "U.S. Pop") |> slice_head(n = 31),
-  ) |> 
-  add_audio_analysis()
-```
-
-```{r}
-pop_features <-
-  Pop |>  
-  mutate(
-    playlist = factor(playlist),
-    segments = map2(segments, key, compmus_c_transpose),
-    pitches =
-      map(
-        segments,
-        compmus_summarise, pitches,
-        method = "mean", norm = "manhattan"
-      ),
-    timbre =
-      map(
-        segments,
-        compmus_summarise, timbre,
-        method = "mean",
-      )
-  ) |>
-  mutate(pitches = map(pitches, compmus_normalise, "clr")) |>
-  mutate_at(vars(pitches, timbre), map, bind_rows) |>
-  unnest(cols = c(pitches, timbre))
-```
-
-```{r}
-pop_recipe <-
-  recipe(
-    playlist ~
-      danceability +
-      energy +
-      loudness +
-      speechiness +
-      acousticness +
-      instrumentalness +
-      liveness +
-      valence +
-      tempo +
-      duration +
-      C + `C#|Db` + D + `D#|Eb` +
-      E + `F` + `F#|Gb` + G +
-      `G#|Ab` + A + `A#|Bb` + B +
-      c01 + c02 + c03 + c04 + c05 + c06 +
-      c07 + c08 + c09 + c10 + c11 + c12,
-    data = pop_features           # Use the same name as the previous block.
-  ) |>
-  step_center(all_predictors()) |>
-  step_scale(all_predictors())      # Converts to z-scores.
-  # step_range(all_predictors())    # Sets range to [0, 1].
-```
-
-```{r}
-pop_cv <- pop_features |> vfold_cv(5)
-```
-
-```{r}
-knn_model <-
-  nearest_neighbor(neighbors = 1) |>
-  set_mode("classification") |> 
-  set_engine("kknn")
-pop_knn <- 
-  workflow() |> 
-  add_recipe(pop_recipe) |> 
-  add_model(knn_model) |> 
-  fit_resamples(pop_cv, control = control_resamples(save_pred = TRUE))
-```
-
-```{r, include=FALSE}
-pop_knn |> get_conf_mat()
-```
-
-
-```{r}
-pop_knn |> get_conf_mat() |> autoplot(type = "heatmap")
-```
-
-*** 
-
-```{r}
-pop_knn |> get_pr()
-```
-
-  
-In order to compute the model, I did capped the playlists at 31 songs in each group. The accuracy of the model as of right now is by the use of the formula *(TP+TN)/total* according to [this](https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/) website is (24+24)/62 = 0.77.., thus according to various sources [like this one](https://www.obviously.ai/post/machine-learning-model-performance) it is a relatively good accuracy while at the same time being within a realistic interval.
-
-By this, I can assume that the model is actually very good at classifying exactly what City Pop and what U.S Pop is. In the next header, I will see what kind of labels were the most important in the classification of these playlists, and whether my visualizations from the earlier weeks were any sort of effective. 
-
-
-### None of the features I used in visualizations were effective!
-
-
-```{r}
-forest_model <-
-  rand_forest() |>
-  set_mode("classification") |> 
-  set_engine("ranger", importance = "impurity")
-pop_forest <- 
-  workflow() |> 
-  add_recipe(pop_recipe) |> 
-  add_model(forest_model) |> 
-  fit_resamples(
-    pop_cv, 
-    control = control_resamples(save_pred = TRUE)
-  )
-```
-
-```{r}
-workflow() |> 
-  add_recipe(pop_recipe) |> 
-  add_model(forest_model) |> 
-  fit(pop_features) |> 
-  pluck("fit", "fit", "fit") |>
-  ranger::importance() |> 
-  enframe() |> 
-  mutate(name = fct_reorder(name, value)) |> 
-  ggplot(aes(name, value)) + 
-  geom_col() + 
-  coord_flip() +
-  theme_minimal() +
-  labs(x = NULL, y = "Importance")
-```
-
-***
-
-```{r}
-pop_forest |> get_pr()
-```
-  
-  
-```{r}
-pop_forest |> get_conf_mat()
-```
-
-I hope this is the right way of getting the confusion matrix out of the random forest model. If I use the same formula as in the previous slide, i will get an accuracy of 0.77..., just as the last one. 
-
-Regarding the feature selection, it is shown in the graph that the timbre vector c11, followed by the track level feature loudness, followed yet again by timbre vector c1. This is quite humorous as it was said in one of the lectures that this timbre vector is the rough equivalent to loudness. After those, primarily timbre features are the ones that are of the most importance. This is quite interesting, as I did mention at the very start of the course (without any knowledge of the terms of music) said that City Pop has a lot of layers to them. This was meant as "there is a lot going on" and it sounds different. 
-
-For the final portfolio, I will use these features in order to improve the existing visualizations I have (and I have the ability to remove some of them). Yay!
 
 
 Conclusions/Summary *UPDATED*
@@ -826,8 +806,5 @@ This makes sense, given the fact that according to the histogram, none of the ci
 But one outlier I want to talk about in particular is the one track, in the energy, danceability and tempo plot, where the energy is quite low in comparison to other tracks, but the danceability is one of the highest in the group. While I am not sure how to point this out in the plot, I have managed to identify it as the track "Billie Jean" by Michael Jackson. A seperate chromagram has been made in order to account for this. 
 
 
-### Homework Comments *UPDATED*
-
-I seem to have been able to provide analyses on the tempi-histogram as well as some outliers in different regards for this homework. Please give some feedback in regards to whether there are some analytic parts that are missing or might be good to add. Thank you!
 
 
