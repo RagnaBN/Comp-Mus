@@ -199,9 +199,7 @@ pop_knn |> get_pr()
 ```
 
   
-In order to compute the model, I did capped the playlists at 31 songs in each group. The accuracy of the model as of right now is by the use of the formula *(TP+TN)/total* according to [this](https://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/) website is (24+24)/62 = 0.77.., thus according to various sources [like this one](https://www.obviously.ai/post/machine-learning-model-performance) it is a relatively good accuracy while at the same time being within a realistic interval.
-
-By this, I can assume that the model is decent at classifying exactly what City Pop and what U.S Pop is. In the next header, I will see what kind of labels were the most important in the classification of these playlists, and determine what labels where most important in this classification.
+In order to compute the model, I did capped the playlists at 31 songs in each group. The model stays around over 20 correctly predicted songs in each genre. By this, I can assume that the model is decent at classifying exactly what City Pop and what U.S Pop is. The prediction for both genres stay around 0.7-0.8 and accuracy stay around the same values. In the next header, I will see what kind of labels were the most important in the classification of these playlists, and determine what labels where most important in this classification.
 
 
 ### From these labels the track level feature *loudness*, and *timbre coefficients* are the most important labels when classifying CP and UP.
@@ -249,11 +247,11 @@ pop_forest |> get_pr()
 pop_forest |> get_conf_mat()
 ```
 
-I hope this is the right way of getting the confusion matrix out of the random forest model. If I use the same formula as in the previous slide, i will get an accuracy of 0.77..., just as the last one. 
+In the random forest model, the accuracy and predictions also stay around the same values as the knn-model. Indicating that both of the models are decent at classifying the genres. 
 
-Regarding the feature selection, it is shown in the graph that the timbre coefficient c11, followed by the track level feature loudness, followed yet again by timbre coefficient c1 are the most important labels that helps the model classify the two genres. The importance of loudness and the timbre coefficient c1 is quite humorous as it was said in one of the lectures that this timbre vector is the rough equivalent to loudness. After those, primarily timbre features are the ones that are of the most importance. This is quite interesting, as I did mention at the very start of the course (without any knowledge of the terms of music) said that City Pop has a lot of layers to them. This was meant as "there is a lot going on" and it sounds different.  
+Regarding the feature selection, depending on the runs three different labels move around the three first places in the feature plot. These are the labels *loudness*, *c1* and *c11*. The importance of loudness and the timbre coefficient c1 is quite humorous as it was said in one of the lectures that this timbre vector is the rough equivalent to loudness. After those, primarily timbre features are the ones that are of the most importance. This is quite interesting, as I did mention at the very start of the course (without any knowledge of the terms of music) said that City Pop has a lot of layers to them. This was meant as "there is a lot going on" and it sounds different.  
 
-This is probably why, according to 
+This is probably why, according to the sources mentioned in the introduction, the genre CP is majorly based on *vibes* and *urban* feelings - rather than distinct features from other music moments. 
 
 
 Graphs {.storyboard}
@@ -370,127 +368,6 @@ Both "4:00A.M." and "I Wanna Dance with Somebody (Who Loves Me)" are both mentio
 On the other hand, it should be mentioned that for Taeko's song there is a good minute and a half dedicated to a rather simplistic guitar solo. However, based on this chromagram, this is not necessarily the case as they seem very homogenous. So perhaps, chromagrams does not necessarily work very well for these items in my corpus. 
 
 
-
-Self-Similarity Matrices
-======================================
-
-Column {data-width=600}
---------------------------------------
-
-### Self-Similarity Matrices of Material Girl and Mayonaka no Door/Stay With Me
-
-```{r material girl_analysis}
-mat_girl <-
-  get_tidy_audio_analysis("7bkyXSi4GtVfD7itZRUR3e") |> # Change URI.
-  compmus_align(bars, segments) |>                     # Change `bars`
-  select(bars) |>                                      #   in all three
-  unnest(bars) |>                                      #   of these lines.
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "rms", norm = "euclidean"              # Change summary & norm.
-      )
-  ) |>
-  mutate(
-    timbre =
-      map(segments,
-        compmus_summarise, timbre,
-        method = "rms", norm = "euclidean"              # Change summary & norm.
-      )
-  )
-```
-
-```{r staywme_analysis}
-stayMe <-
-  get_tidy_audio_analysis("2BHj31ufdEqVK5CkYDp9mA") |> # Change URI.
-  compmus_align(bars, segments) |>                     # Change `bars`
-  select(bars) |>                                      #   in all three
-  unnest(bars) |>                                      #   of these lines.
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "rms", norm = "euclidean"              # Change summary & norm.
-      )
-  ) |>
-  mutate(
-    timbre =
-      map(segments,
-        compmus_summarise, timbre,
-        method = "rms", norm = "euclidean"              # Change summary & norm.
-      )
-  )
-```
-
-
-
-```{r}
-bind_rows(
-  mutate(compmus_self_similarity(stayMe, pitches, "cosine"), type = "Chroma", song = "Stay with Me"),
-  mutate(compmus_self_similarity(stayMe, timbre, "cosine"), type = "Timbre", song = "Stay with Me"),
-  mutate(compmus_self_similarity(mat_girl, pitches, "cosine"), type = "Chroma", song = "Material Girl"),
-  mutate(compmus_self_similarity(mat_girl, timbre, "cosine"), type = "Timbre", song = "Material Girl"),
-) |>
-  mutate() |> 
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  facet_wrap(song~type) +
-  scale_fill_viridis_c(guide = "none") +
-  theme_classic() +
-  labs(title = "Self-Similarity Matrices", x = "", y = "")
-```
-
-Column {data-width=400}
---------------------------------------
-
-### Analysis 
-
-Here, two sets of self-similarity matrices in both chroma and timbre are compared between playlists in my corpus. These are the songs "Mayonaka no door / Stay With Me" by Miki Matsubara and "Material Girl" by Madonna. These were chosen as they are quite typical songs in my corpus. As ne can see, there are distinct differences between the two songs in both timbre and chroma.  
-
-From the borderline black diagonal patterns in the chroma SSM one can see that the CP song definitely has more repetitive patterns in pitch classes than the UP one. There are novel items introduced, as one can see by the bright colors creating a checkerboard pattern, but this is more present in "Material Girl". The latter, according to the chroma SSM, shows less repetitions in pitch classes and more novel stuff. This is especially apparent at around 200 seconds in the song, where a brightly colored band shows up, indicating it is entirely novel. This indicates that CP is fond of repetitive pitch classes, perhaps even more than UP.  
-
-However, if one looks at the timbre based SMMs, the story is entirely different. Here, there are many instances in the CP song where timbre has novelty at many different parts of the song as well. This is highly contrasted in the UP song, as one can see there are a lot of repetition in timbre and way less than CP. This supports the notion of the classifier that timbre might be the thing that really distinguishes CP from UP. 
-
- 
-
-Tempi {.storyboard}
-======================================
-
-
-### Billie Jean - our atypical song 
-
-```{r}
-knitr::include_graphics("billiejeanNOTcyclic.png")
-```
-
-***  
-
-Here is the tempogram of the indentified outlier from the graph of energy's effect on danceability, where the energy is low, but danceability is high. This is a completely standard tempogram, in terms of the overall execution of the formulations on this piece as there are no disturbances or anything that went wrong. "Billie Jean" is a very stereotypical song in this regard, with a bpm of approximately 120 and very steady beat, rhythm and tempo that do not seem to change. This is probably a part of the reason the overall danceability of this piece is very high, in spite that its energy is very low. 
-
-
-### A Hope From Sad Street - An Outlier in Distribution
-
-```{r}
-knitr::include_graphics("sad-street.png")
-```
-
-***  
-
-"A HOPE FROM SAD STREET" by Anri is one of the outliers in terms of tempo. It is the only song that  Here, in comparison to "Billie Jean" there were apparantly some issues when generating the tempo, as there are multiple yellow lines that flicker across the entire piece. However, as one can tell, it was not a complete failure, as it was able to generate not one, but two tempo octaves. It is not as stable as the previous piece, but the lines are clearly there. 
-
-This flickering could be attributed to the way this song is realized, in that there are many layers of sound, there are the bassline, but there are also a layer of trumpet as well as a choir and points where the song is stopped and picked up again. The bassline often is replaced by piano, and guitar solos - before returning to the "status quo". As far as I can tell, these instances are represented in the points in the tempogram. 
-
-
 Keys & Chords {.storyboard}
 =======================================
 
@@ -583,11 +460,11 @@ key_templates <-
   )
 ```
 
-### Remember Summer Days     City Pop
+### Carnaval - Taeko Onuki
 
-```{r}
-remember <-
-  get_tidy_audio_analysis("1qUo7d5lAOclNVbTUY0A2R") |>
+```{r carnacal analysis}
+carnaval <-
+  get_tidy_audio_analysis("5GRcazsYepend8bMUKCTgW") |>
   compmus_align(sections, segments) |>
   select(sections) |>
   unnest(sections) |>
@@ -600,42 +477,8 @@ remember <-
   )
 ```
 
-```{r}
-remember |> 
-  compmus_match_pitch_template(
-    chord_templates,         # Change to chord_templates if desired
-    method = "manhattan",  # Try different distance metrics
-    norm = "manhattan"     # Try different norms
-  ) |>
-  ggplot(
-    aes(x = start + duration / 2, width = duration, y = name, fill = d)
-  ) +
-  geom_tile() +
-  scale_fill_viridis_c(guide = "none") +
-  theme_minimal() +
-  labs(x = "Time (s)", y = "")
-```
-
-
-### Thriller     Pop
-
-```{r}
-thriller <-
-  get_tidy_audio_analysis("2LlQb7Uoj1kKyGhlkBf9aC") |>
-  compmus_align(sections, segments) |>
-  select(sections) |>
-  unnest(sections) |>
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "mean", norm = "manhattan"
-      )
-  )
-```
-
-```{r}
-thriller |> 
+```{r carnaval chordogram}
+carnaval |> 
   compmus_match_pitch_template(
     chord_templates,         # Change to chord_templates if desired
     method = "manhattan",  # Try different distance metrics
@@ -650,22 +493,153 @@ thriller |>
   labs(x = "Time (s)", y = "")
 ```
 
+***
+
+Here is a chordogram of the song "CARNAVAL" by Taeko Onuki. It is a song that has clear sound in terms of synthesizers, and the chordograms should be able to represent this accurately. Chordograms show similarity between bars and the chords inn the song, meaning that the darker the band the more likely this chord was played at this time in the song. However, many of the bands seem to be dark - which I am not entirely sure is representative. To give the benefit of the doubt, there are many parts of the song that the synthesizer has solos. 
+
+In the bands many of them are dark around the major 7th chords, however also the minor 7th chords are dark. Especially around the end of the song. This could be in accordance to sources where it is indicated that CP employs these types of chords. 
+
+In the next slide, a chordogram of the song "You're Still My Man" by Whitney Houston will be presented and compared. 
 
 
+### You're Still My Man
+
+```{r still my man analysis}
+still_man <-
+  get_tidy_audio_analysis("2csRQWI7A2FjLYBQBiAIoi") |>
+  compmus_align(sections, segments) |>
+  select(sections) |>
+  unnest(sections) |>
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "mean", norm = "manhattan"
+      )
+  )
+```
+
+```{r still my man chordogram}
+still_man |> 
+  compmus_match_pitch_template(
+    chord_templates,         # Change to chord_templates if desired
+    method = "euclidean",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  ) |>
+  ggplot(
+    aes(x = start + duration / 2, width = duration, y = name, fill = d)
+  ) +
+  geom_tile() +
+  scale_fill_viridis_c(guide = "none") +
+  theme_minimal() +
+  labs(x = "Time (s)", y = "")
+```
+
+***
+
+The song is a very calm love song, also equipped with a synthesizer, like the previous song. This should be a good way to compare the two genres. 
+Here the bands are very dark around the same chords as the CP song. Both the major and minor 7th bands are dark throughout the song. "You're Still My Man" also has two modulations. This is represented well in the chordogram. 
+
+However, in terms of differences between CP and UP there aren't any between these songs at least. 
+
+
+Self-Similarity Matrices
+======================================
+
+Column {data-width=600}
+--------------------------------------
+
+### Self-Similarity Matrices of Material Girl and Mayonaka no Door/Stay With Me
+
+```{r material girl_analysis}
+mat_girl <-
+  get_tidy_audio_analysis("7bkyXSi4GtVfD7itZRUR3e") |> # Change URI.
+  compmus_align(bars, segments) |>                     # Change `bars`
+  select(bars) |>                                      #   in all three
+  unnest(bars) |>                                      #   of these lines.
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+```
+
+```{r staywme_analysis}
+stayMe <-
+  get_tidy_audio_analysis("2BHj31ufdEqVK5CkYDp9mA") |> # Change URI.
+  compmus_align(bars, segments) |>                     # Change `bars`
+  select(bars) |>                                      #   in all three
+  unnest(bars) |>                                      #   of these lines.
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+```
+
+
+
+```{r}
+bind_rows(
+  mutate(compmus_self_similarity(stayMe, pitches, "cosine"), type = "Chroma", song = "Stay with Me"),
+  mutate(compmus_self_similarity(stayMe, timbre, "cosine"), type = "Timbre", song = "Stay with Me"),
+  mutate(compmus_self_similarity(mat_girl, pitches, "cosine"), type = "Chroma", song = "Material Girl"),
+  mutate(compmus_self_similarity(mat_girl, timbre, "cosine"), type = "Timbre", song = "Material Girl"),
+) |>
+  mutate() |> 
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_fixed() +
+  facet_wrap(song~type) +
+  scale_fill_viridis_c(guide = "none") +
+  theme_classic() +
+  labs(title = "Self-Similarity Matrices", x = "", y = "")
+```
+
+Column {data-width=400}
+--------------------------------------
+
+### Analysis 
+
+Here, two sets of self-similarity matrices in both chroma and timbre are compared between playlists in my corpus. These are the songs "Mayonaka no door / Stay With Me" by Miki Matsubara and "Material Girl" by Madonna. These were chosen as they are quite typical songs in my corpus. As ne can see, there are distinct differences between the two songs in both timbre and chroma.  
+
+From the borderline black diagonal patterns in the chroma SSM one can see that the CP song definitely has more repetitive patterns in pitch classes than the UP one. There are novel items introduced, as one can see by the bright colors creating a checkerboard pattern, but this is more present in "Material Girl". The latter, according to the chroma SSM, shows less repetitions in pitch classes and more novel stuff. This is especially apparent at around 200 seconds in the song, where a brightly colored band shows up, indicating it is entirely novel. This indicates that CP is fond of repetitive pitch classes, perhaps even more than UP.  
+
+However, if one looks at the timbre based SMMs, the story is entirely different. Here, there are many instances in the CP song where timbre has novelty at many different parts of the song as well. This is highly contrasted in the UP song, as one can see there are a lot of repetition in timbre and way less than CP. This supports the notion of the classifier that timbre might be the thing that really distinguishes CP from UP. 
 
 
 Conclusions/Summary *UPDATED*
 ==================================
 
-### Differences in City Pop vs US Pop *HAS NOT CHANGED* 
+### Differences in City Pop vs US Pop 
 
-So far we can see that the differences between US Pop and City Pop, based on the corpus I am using, is that energy definitely seem to have an effect on danceability in US pop, up until a certain level. However, there are many outliers that can skew this, which will be identified shortly. Furthermore, it does not seem that tempo has a definite pattern on either energy or danceability. 
-
-Furthermore, another difference is that danceability seem to have more of an effect on the positive valence in both genres. However, one can see that there are more songs in US pop that are more danceable and that are happier than City Pop.  
-
-This makes sense, given the fact that according to the histogram, none of the city pop songs go above a certain threshold of valence, in comparison to US pop. This could indicate that city pop is generally less "happy".  
-
-But one outlier I want to talk about in particular is the one track, in the energy, danceability and tempo plot, where the energy is quite low in comparison to other tracks, but the danceability is one of the highest in the group. While I am not sure how to point this out in the plot, I have managed to identify it as the track "Billie Jean" by Michael Jackson. A seperate chromagram has been made in order to account for this. 
+Throughout this 
 
 
 
