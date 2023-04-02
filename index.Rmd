@@ -643,9 +643,11 @@ Throughout this portfolio, I have tried to explore the genres City Pop and U.S. 
 
 The classifier did a better job than expected to provide labels for the two genres and managed to uncover that loudness and timbre coefficients were the most effective in differentiating the corpus. Using these, I was able to visualize that CP is louder than UP. Furthermore, the timbre, as shown by the self-similarity matrices showed support for the fact that CP has different qualities in timbre from UP. This was something that was mentioned as expectations in the introduction, even when I had no knowledge of music. However, the use of pitch as well as tempo, as shown by the loudness and tempo, as well as the chromagrams and chordograms that there aren't many differences in terms of these musical moments.  
 
-As far as a more general conclusion, one can say that CP definitely has substance to the arguments mentioned in the introduction. Namely that the "urban" vibe, that so many are talking about, is a major part of what makes CP, well, CP. Otherwise, as far as I can tell, they are in general pretty similar.
+As far as a more general conclusion, one can say that CP definitely has substance to the arguments mentioned in the introduction. Namely that the "urban" vibe, that so many are talking about, is a major part of what makes CP, well, CP. Otherwise, as far as I can tell, they are in general pretty similar. These conclusions could benefit the general population who wonder whether there is a difference between the two genres. Furthermore, it really underlines the importance of timbre on how it can affect an entire sub-genre. 
 
 However, major limitations to this "study" should be once again reiterated. Due to factors such as time and processing abilities, only a couple songs at a time could be compared - leaving missed representations, and perhaps badly compared items. However, given these limitations I think I did a pretty good job. 
+
+
 
 
 
