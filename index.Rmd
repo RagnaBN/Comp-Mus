@@ -58,7 +58,7 @@ Column {data-width=600}
 
 City pop vs U.S. Pop   
     
-In this portfolio, I will explore the differences and features of the two genres City Pop (CP) and U.S.Pop (UP), originating from Japan and the U.S. respectively. Genre here is a very loose term, as there are [sources](https://www.japantimes.co.jp/culture/2015/07/05/music/city-pop-revival-literally-trend-name/) that indicate that CP is a vibe explored through many different types of genres. [Others](https://www.rollingstone.com/music/music-features/japanese-city-pop-returns-light-in-the-attic-compilation-pacific-breeze-822663/) say it is pop music for city people. However, for simplicity's sake, I will use the term genre. CP is a type of genre from Japan that appeared the late 70's and reached its popularity peak in the 80's. I will be comparing two playlists consisting of three artists, one Japanese group and one US playlist. The Japanese group consist of the artists Taeko Onuki, Miki Matsubara and Anri. The US counterparts are the artists Michael Jackson, Whitney Houston and Madonna. I chose these corpora because I want to explore whether there are distinct differences between the genre of (city) pop as it was in Japan in the 80's vs the pop that was popular in the western world in the same decade. Japanese CP was influenced by western music, so I expect there to be many similarities in use of sound, instruments and type of rhythms. However, an aspect I am particularly interested whether there is a difference is the prevalence of bass, and tempo. It is also interesting to see whether there are differences in other aspects like timbre. However, I am unsure to what extent they are different, which will be explored here.  
+In this portfolio, I will explore the differences and features of the two genres City Pop (CP) and U.S.Pop (UP), originating from Japan and the U.S. respectively. Genre here is a very loose term, as there are [sources](https://www.japantimes.co.jp/culture/2015/07/05/music/city-pop-revival-literally-trend-name/) that indicate that CP is a vibe explored through many different types of genres. [Others](https://www.rollingstone.com/music/music-features/japanese-city-pop-returns-light-in-the-attic-compilation-pacific-breeze-822663/) say it is pop music for city people, indicating that there is a vibe to the music that is inherently *urban*. However, for simplicity's sake, I will use the term genre. CP is a type of genre from Japan that appeared the late 70's and reached its popularity peak in the 80's. I will be comparing two playlists consisting of three artists, one Japanese group and one US playlist. The Japanese group consist of the artists Taeko Onuki, Miki Matsubara and Anri. The US counterparts are the artists Michael Jackson, Whitney Houston and Madonna. I chose these corpora because I want to explore whether there are distinct differences between the genre of (city) pop as it was in Japan in the 80's vs the pop that was popular in the western world in the same decade. Japanese CP was influenced by western music, so I expect there to be many similarities in use of sound, instruments and type of rhythms. However, an aspect I am particularly interested whether there is a difference is the prevalence of bass, and tempo. It is also interesting to see whether there are differences in other aspects like timbre. However, I am unsure to what extent they are different, which will be explored here.  
 
 The reason I chose this topic is because of my personal tastes. Ever since I was a child, pop has been a significant part of my life and upbringing as this was perhaps the major genre both my parents listened to. Due to rising popularity on the internet, CP has gained a lot of traction and even has spawned new types of sub-genres, e.g., future funk, from what I think is a similarity from Western pop as well as many of the songs ability to sound modern in today's standards. This previously mention of pop for city people is what attracted me, and I have been listening to it personally since I discovered it 3-4 years ago. 
     
@@ -67,24 +67,24 @@ As I have chosen three artists to represent their own (variety) of genres, there
 
 Typical, and popular, tracks from the Japanese playlist are:  
 
-  - [Mayonaka no Door / Stay With Me](https://open.spotify.com/track/2BHj31ufdEqVK5CkYDp9mA?si=6f913519033540d7) - Miki Matsubara from "Miki Matsubara Best Collection
-  - [4:00A.M.](https://open.spotify.com/track/0zoGVO4bQXG8U6ChKwNgeg?si=e8ef83a75f054faa) - Taeko Onuki from "Mignonne"
-  - [Remember Summer Days](https://open.spotify.com/track/1qUo7d5lAOclNVbTUY0A2R?si=7b1efc2b7d6d4653) - Anri from "Timely!!"
+  - Mayonaka no Door / Stay With Me - Miki Matsubara 
+  - 4:00A.M. - Taeko Onuki 
+  - Remember Summer Days - Anri
 
 These songs are typical in the sense that there are prominent use of basslines and clear rhythms, very stereotypical pop and have many timbre features to them, as well as many sound layers, e.g., instruments etc.  
 
 The western counterparts have typical tracks like:  
 
-  - [Thriller]() - Michael Jackson from "Thriller" 
-  - [I Wanna Dance with Somebody (Who Loves Me)](https://open.spotify.com/track/2tUBqZG2AbRi7Q0BIrVrEj?si=8565b305f0994f16) - Whitney Houston from     "Whitney"
-  - [Material Girl](https://open.spotify.com/track/7bkyXSi4GtVfD7itZRUR3e?si=46d0d3fa86d942ea) - Madonna from "Like a Virgin"  
+  - Thriller - Michael Jackson
+  - I Wanna Dance with Somebody (Who Loves Me) - Whitney Houston
+  - Material Girl - Madonna
   
 These last three tracks especially has the typical and distinct features of pop of the 80's, namely the sharp drums and the heavily synthesized piano sounds and, what I think, an almost like a "dreamy" sound to them.  
   
 Atypical songs from both playlists can include: 
 
-  - [Billie Jean](https://open.spotify.com/track/7J1uxwnxfQLu4APicE5Rnj?si=2204b32a10f545b5) by Michael Jackson
-  - [横顔](https://open.spotify.com/track/5IgmcXoZGOhs32mD1BLFdp?si=fc1ffeeb007a46ad) by Taeko Onuki  
+  - Billie Jean by Michael Jackson
+  - 横顔 by Taeko Onuki  
   
   
 In order to explore eventual differences and features of this corpus, I will first start with a classification model with a random forest. Then I will explore track level features between the two genres, focusing on what the classification model labels my corpus. After I will go more into the musical moments such as timbre and chroma, focusing on self-similarity matrices and chromagrams and chordograms. Finally, I will go into depth about what this portfolio has explored and conclude what can be derived from this. 
@@ -634,16 +634,16 @@ From the borderline black diagonal patterns in the chroma SSM one can see that t
 However, if one looks at the timbre based SMMs, the story is entirely different. Here, there are many instances in the CP song where timbre has novelty at many different parts of the song as well. This is highly contrasted in the UP song, as one can see there are a lot of repetition in timbre and way less than CP. This supports the notion of the classifier that timbre might be the thing that really distinguishes CP from UP. 
 
 
-Conclusions/Summary *UPDATED*
+Conclusions
 ==================================
 
 ### Differences in City Pop vs US Pop 
 
 Throughout this portfolio, I have tried to explore the genres City Pop and U.S. Pop to the best of my ability. This is to strengthen and explore differences between the two.  
 
-The classifier did a better job than expected to provide labels for the two genres and managed to uncover that loudness and timbre coefficients were the most effective in differentiating the corpus. Using these, I was able to visualize that CP is louder than UP. Furthermore, the timbre, as shown by the self-similarity matrices showed support for the fact that CP has different qualities in timbre from UP. However, the use of pitch as well as tempo, as shown by the loudness and tempo, as well as the chromagrams and chordograms that there aren't many differences in terms of these musical moments.  
+The classifier did a better job than expected to provide labels for the two genres and managed to uncover that loudness and timbre coefficients were the most effective in differentiating the corpus. Using these, I was able to visualize that CP is louder than UP. Furthermore, the timbre, as shown by the self-similarity matrices showed support for the fact that CP has different qualities in timbre from UP. This was something that was mentioned as expectations in the introduction, even when I had no knowledge of music. However, the use of pitch as well as tempo, as shown by the loudness and tempo, as well as the chromagrams and chordograms that there aren't many differences in terms of these musical moments.  
 
-As far as a more general conclusion, one can say that CP definitely has substance to the arguments mentioned in the introduction. Namely that the "urban" vibe, that so many are talking about, is a major part of what makes CP, well, CP. Otherwise, as far as I can tell they are pretty similar.   
+As far as a more general conclusion, one can say that CP definitely has substance to the arguments mentioned in the introduction. Namely that the "urban" vibe, that so many are talking about, is a major part of what makes CP, well, CP. Otherwise, as far as I can tell, they are in general pretty similar.
 
 However, major limitations to this "study" should be once again reiterated. Due to factors such as time and processing abilities, only a couple songs at a time could be compared - leaving missed representations, and perhaps badly compared items. However, given these limitations I think I did a pretty good job. 
 
