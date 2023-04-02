@@ -361,7 +361,7 @@ fourSomebody |>
 Column {data-width=300}
 -------------------------------------
 
-### Analysis
+### Similar in terms of chroma
 
 Both "4:00A.M." and "I Wanna Dance with Somebody (Who Loves Me)" are both mentioned as popular and typical songs in my corpus. As depicted in the chromagrams to the left. As one can see. The same chromas are used in a very similar manner with an exception in some areas, like F#/Gb and when they use the C chroma most. For Taeko Onuki, this is in the beginning of the song, whereas for Whitney's, it is mostly in the end of the song. The F chroma is also used more. Overall, it seems like both of the songs seem very homogeneous in terms of pitch classes. There is not a lot of variation neither inter-, nor intra-song. Which is quite representative as the segments in the songs are very stereotypical with verses, choruses and repetition of these segments. Thus, in this instance the chromagrams do not particularly gain any insights in the differences in features. However, it does tell us that they are (can be) quite similar.  
 
@@ -460,7 +460,7 @@ key_templates <-
   )
 ```
 
-### Carnaval - Taeko Onuki
+### Chordogram of CARNAVAL shows many 7th chords
 
 ```{r carnacal analysis}
 carnaval <-
@@ -502,7 +502,7 @@ In the bands many of them are dark around the major 7th chords, however also the
 In the next slide, a chordogram of the song "You're Still My Man" by Whitney Houston will be presented and compared. 
 
 
-### You're Still My Man
+### Not many differences between CP and Up as far as I can tell
 
 ```{r still my man analysis}
 still_man <-
@@ -625,7 +625,7 @@ bind_rows(
 Column {data-width=400}
 --------------------------------------
 
-### Analysis 
+### CP uses sound color in more novel ways than UP
 
 Here, two sets of self-similarity matrices in both chroma and timbre are compared between playlists in my corpus. These are the songs "Mayonaka no door / Stay With Me" by Miki Matsubara and "Material Girl" by Madonna. These were chosen as they are quite typical songs in my corpus. As ne can see, there are distinct differences between the two songs in both timbre and chroma.  
 
@@ -639,7 +639,13 @@ Conclusions/Summary *UPDATED*
 
 ### Differences in City Pop vs US Pop 
 
-Throughout this 
+Throughout this portfolio, I have tried to explore the genres City Pop and U.S. Pop to the best of my ability. This is to strengthen and explore differences between the two.  
+
+The classifier did a better job than expected to provide labels for the two genres and managed to uncover that loudness and timbre coefficients were the most effective in differentiating the corpus. Using these, I was able to visualize that CP is louder than UP. Furthermore, the timbre, as shown by the self-similarity matrices showed support for the fact that CP has different qualities in timbre from UP. However, the use of pitch as well as tempo, as shown by the loudness and tempo, as well as the chromagrams and chordograms that there aren't many differences in terms of these musical moments.  
+
+As far as a more general conclusion, one can say that CP definitely has substance to the arguments mentioned in the introduction. Namely that the "urban" vibe, that so many are talking about, is a major part of what makes CP, well, CP. Otherwise, as far as I can tell they are pretty similar.   
+
+However, major limitations to this "study" should be once again reiterated. Due to factors such as time and processing abilities, only a couple songs at a time could be compared - leaving missed representations, and perhaps badly compared items. However, given these limitations I think I did a pretty good job. 
 
 
 
